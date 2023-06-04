@@ -1,10 +1,10 @@
-import { Router } from "express";
+import express from "express";
+import userRoutes from "./User/user.routes.js";
+import postRoutes from "./Post/post.routes.js";
 
-const router = Router();
+const router = express.Router();
 
-router.get("/", (req, res) => {
-  console.log("frontend is requesting");
-  res.status(200).send({ message: "backend is responding" });
-});
+router.use('/api/user/', userRoutes);
+router.use('/api/post/', postRoutes);
 
 export default router;

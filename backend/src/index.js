@@ -5,7 +5,7 @@ import routes from "./routes.js";
 const port = 1999;
 const api = express();
 
-api.use(cors({ origin: '*' }));
+api.use(cors({ origin: "*" }));
 api.use(express.json());
 api.use(routes);
 
