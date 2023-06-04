@@ -55,3 +55,5 @@ const useDeleteUser = (id) => {
     return response.json();
   });
 };
+
+export { useUser, useUsers, useCreateUser, useUpdateUser, useDeleteUser };

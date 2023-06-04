@@ -55,3 +55,5 @@ const useDeletePost = (id) => {
     return response.json();
   });
 };
+
+export { usePost, usePosts, useCreatePost, useUpdatePost, useDeletePost };
