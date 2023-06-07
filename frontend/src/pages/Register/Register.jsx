@@ -24,7 +24,7 @@ export const Register = () => {
         </div>
         <div className="flex w-full flex-col items-center justify-center gap-5">
           <div className="relative w-1/5">
-            <div className="absolute right-0 rounded-full bg-light-primary">
+            <div className="absolute right-0 rounded-full bg-light-primary text-light-inputFill dark:text-dark-inputFill">
               <Icon.HelpCircle size={24} />
             </div>
             <img src={avatar} alt="logo" className="object-contain p-2" />
