@@ -10,8 +10,8 @@ export const SideBar = () => {
 
   const [darkMode, setDarkMode] = useDarkMode();
   const handleDarkMode = () => {
-    setDarkMode(!darkMode)
-    console.log("Dark Mode: ", darkMode)
+    setDarkMode(!darkMode);
+    console.log("Dark Mode: ", darkMode);
   };
 
   const handleButtonClickNavigation = (url) => {
@@ -23,7 +23,7 @@ export const SideBar = () => {
   };
 
   return (
-    <div className="top-0 left-0 flex h-screen w-20 flex-col gap-3 border-r-2 border-zinc-500 border-opacity-20 p-3">
+    <div className="left-0 top-0 flex h-screen w-20 flex-col gap-3 border-r-2 border-zinc-500 border-opacity-20 p-3">
       <div className="flex flex-col items-center">
         {darkMode ? (
           <SideBarIcon

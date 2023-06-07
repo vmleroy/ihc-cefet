@@ -27,6 +27,10 @@ module.exports = {
           icon: "#7E7E7E",
           text: "#9E9E9E",
         },
+        divider: {
+          light: "#6A6A6A",
+          dark: "#6A6A6A",
+        },
         success: "#00C851",
         info: "#2B8CE5",
         warn: "#FFBB33",
