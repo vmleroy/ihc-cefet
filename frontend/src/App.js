@@ -1,4 +1,5 @@
 import React from "react";
+import { NavRoutes } from "./routes";
 
 const App = () => {
   const [message, setMessage] = React.useState("");
@@ -7,9 +8,7 @@ const App = () => {
   //   .then((res) => setMessage(res.message));
 
   return (
-    <div className="bg-black font-bold text-red-800">{message}
-      <div className="bg-black font-archivoNarrow text-light-primary">Hello World</div>
-    </div>
+    <NavRoutes />
   );
 };
 
