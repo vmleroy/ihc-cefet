@@ -12,15 +12,17 @@ module.exports = {
       colors: {
         light: {
           background: "#FFFFFF",
+          backgroundSecondary: "#D9D9D9",
           primary: "#2B8CE5",
           secondary: "#565656",
           inputFill: "#E7E7E7"
         },
         dark: {
           background: "#3A3A3A",
+          backgroundSecondary: "#202020",
           primary: "#2B8CE5",
           secondary: "#DADADA",
-          inputFill: "#FFFFFF"
+          inputFill: "#D9D9D9"
         },
         input: {
           stroke: "#3A3A3A",
