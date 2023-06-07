@@ -15,7 +15,7 @@ export const Register = () => {
     <div className="flex h-full w-full items-center justify-center">
       <div className="flex w-3/4 flex-col items-center justify-center gap-5">
         <div className="flex w-full flex-col items-center justify-center text-center">
-          <p className="text-[64px] font-bold text-light-primary">
+          <p className="text-[50px] font-bold text-light-primary">
             CADASTRE-SE
           </p>
           <p className="text-[20px] text-light-secondary dark:text-dark-secondary">
