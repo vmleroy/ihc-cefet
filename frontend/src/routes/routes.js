@@ -5,6 +5,7 @@ import { Layout } from "../pages/Layout";
 import { NotFound } from "../pages/NotFound";
 
 import { Login } from "../pages/Login";
+import { Register } from "../pages/Register";
 
 const Root = () => {
   return (
@@ -12,6 +13,7 @@ const Root = () => {
       <Route element={<Layout />}>
         <Route path="/" element={<Navigate replace to="/login"/>} />
         <Route path="login" element={<Login />} />
+        <Route path="register" element={<Register />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
