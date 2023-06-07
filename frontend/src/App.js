@@ -1,5 +1,8 @@
 import React from "react";
-import { NavRoutes } from "./routes";
+import { RouterProvider } from "react-router-dom";
+
+import { NavRouter } from "./routes";
+import useDarkMode from "./hooks/useDarkMode";
 
 const App = () => {
   const [message, setMessage] = React.useState("");
@@ -7,9 +10,10 @@ const App = () => {
   //   .then((res) => res.json())
   //   .then((res) => setMessage(res.message));
 
-  return (
-    <NavRoutes />
-  );
+  const [darkMode, setDarkMode] = useDarkMode();
+
+  return <RouterProvider router={NavRouter} />;
+
 };
 
 export default App;

@@ -6,7 +6,8 @@ module.exports = {
     extend: {
       fontFamily: {
         archivoNarrow: ["Archivo Narrow", "sans-serif"],
-        balooChettan: ["Baloo Chettan 2", "cursive"],
+        balooChettan: ['"Baloo Chettan 2"', "sans-serif"],
+        montserrat: ["Montserrat", "sans-serif"],
       },
       colors: {
         light: {

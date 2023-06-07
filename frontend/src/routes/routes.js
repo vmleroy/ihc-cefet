@@ -1,16 +1,21 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { createBrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
-import { AccessPage } from "../pages/AccessPage";
+import { Layout } from "../pages/Layout";
+import { NotFound } from "../pages/NotFound";
 
-export function NavRoutes() {
+import { Login } from "../pages/Login";
+
+const Root = () => {
   return (
     <Routes>
-      { /* Public Routes */}
-      <Route path="/" element={<AccessPage />}>
-        <Route path="login" element={<div>Login</div>} />
-        <Route path="register" element={<div>Register</div>} />
+      <Route element={<Layout />}>
+        <Route path="/" element={<Navigate replace to="/login"/>} />
+        <Route path="login" element={<Login />} />
+        <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
   );
-}
+};
+
+export const NavRouter = createBrowserRouter([{ path: "*", Component: Root }]);
