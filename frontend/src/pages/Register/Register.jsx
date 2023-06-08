@@ -26,30 +26,11 @@ export const Register = () => {
   };
 
   const handleEmailChange = (event) => {
-    const restrictions = "/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/"
-    const restrictionAccepted = restrictions.test(event.target.value);
-    if (restrictionAccepted) {
-      setUser({ ...user, email: event.target.value });
-    } else {
-      console.log("Email não atende aos requisitos!");
-      return;
-    }
+    setUser(({ ...user, email: event.target.value }));
   };
 
   const handlePasswordChange = (event) => {
-    if (event.target.value.length < 6) {
-      console.log("Senha muito curta!");
-      return;
-    } else {
-      let restrictions = "/^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/";
-      const restrictionAccepted = restrictions.test(event.target.value);
-      if (restrictionAccepted) {
-        setUser({ ...user, password: event.target.value });
-      } else {
-        console.log("Senha não atende aos requisitos!");
-        return;
-      }
-    }   
+    setUser({ ...user, password: event.target.value });
   };
 
   const [darkMode, setDarkMode] = useDarkMode();
