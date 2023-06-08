@@ -1,17 +1,25 @@
 import React from "react";
+import * as Icon from "react-feather";
 
 import loginPageCollage from "../../assets/images/login-page-collage.png";
-import logo from "../../assets/images/logo.png";
+import logoLight from "../../assets/images/logoLight.png";
+import logoDark from "../../assets/images/logoDark.png";
 
+import useDarkMode from "../../hooks/useDarkMode";
 import { VerticalDivider as Divider } from "../../components/Divider/";
 import { Input } from "../../components/Input/";
-
-import * as Icon from "react-feather";
 import { Button } from "../../components/Button";
+import { IconButton } from "../../components/IconButton";
 
 export const Login = () => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+
+  const [darkMode, setDarkMode] = useDarkMode();
+  const handleDarkMode = () => {
+    setDarkMode(!darkMode);
+    console.log("Dark Mode: ", darkMode);
+  };
 
   return (
     <div className="flex h-full w-full">
@@ -34,10 +42,10 @@ export const Login = () => {
         <Divider customStyles="h-4/5" />
       </div>
       <div className="flex h-full w-1/2 flex-col items-center justify-center">
-        <div className="w-1/2 mb-10">
-          <img src={logo} alt="logo" className="object-contain"/>
+        <div className="mb-10 w-1/2">
+          <img src={darkMode ? logoDark : logoLight } alt="logo" className="object-contain" />
         </div>
-        <div className="flex w-1/2 flex-col gap-3 items-center justify-center">
+        <div className="flex w-1/2 flex-col items-center justify-center gap-3">
           <Input
             icon={<Icon.AtSign size={22} />}
             type="email"
@@ -72,6 +80,23 @@ export const Login = () => {
             Não Possui uma conta? Registre-se
           </div>
         </div>
+      </div>
+      <div className="absolute bottom-4 left-0 w-16 rounded-r-md bg-light-secondary shadow-xl dark:bg-dark-secondary">
+        {darkMode ? (
+          <IconButton
+            icon={<Icon.Sun size={24} />}
+            tooltip="Light Mode"
+            onClickFunction={handleDarkMode}
+            customTootlipStyles="left-16"
+          />
+        ) : (
+          <IconButton
+            icon={<Icon.Moon size={24} />}
+            tooltip="Dark Mode"
+            onClickFunction={handleDarkMode}
+            customTootlipStyles="left-16"
+          />
+        )}
       </div>
     </div>
   );
