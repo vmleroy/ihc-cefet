@@ -10,9 +10,7 @@ import { Input } from "../../components/Input";
 import { Button } from "../../components/Button";
 import { IconButton } from "../../components/IconButton";
 
-
 export const Register = () => {
-
   const navigate = useNavigate();
 
   const [user, setUser] = React.useState({
@@ -20,13 +18,13 @@ export const Register = () => {
     email: "",
     password: "",
   });
-  
+
   const handleNameChange = (event) => {
     setUser({ ...user, name: event.target.value });
   };
 
   const handleEmailChange = (event) => {
-    setUser(({ ...user, email: event.target.value }));
+    setUser({ ...user, email: event.target.value });
   };
 
   const handlePasswordChange = (event) => {
@@ -40,10 +38,10 @@ export const Register = () => {
   };
 
   const handleRegisterButtonClick = () => {
-    console.log("Usuario cadastrado com sucesso!")
+    console.log("Usuario cadastrado com sucesso!");
     navigate(InsideLinks.login);
   };
-  
+
   const handleVoltarButtonClick = () => {
     navigate(InsideLinks.login);
   };
@@ -106,12 +104,20 @@ export const Register = () => {
             />
           </div>
           <div className="flex w-1/2 flex-row items-center justify-center gap-2">
-            <Button label="REGISTRAR" customStyles="w-1/2" onClick={handleRegisterButtonClick} />
-            <Button label="VOLTAR" customStyles="w-1/2" onClick={handleVoltarButtonClick} />
+            <Button
+              label="REGISTRAR"
+              customStyles="w-1/2"
+              onClick={handleRegisterButtonClick}
+            />
+            <Button
+              label="VOLTAR"
+              customStyles="w-1/2"
+              onClick={handleVoltarButtonClick}
+            />
           </div>
         </div>
       </div>
-      <div className="absolute bottom-4 left-0 w-16 bg-light-secondary dark:bg-dark-secondary rounded-r-md shadow-xl">
+      <div className="absolute bottom-4 left-0 w-16 rounded-r-md bg-light-secondary shadow-xl dark:bg-dark-secondary">
         {darkMode ? (
           <IconButton
             icon={<Icon.Sun size={24} />}

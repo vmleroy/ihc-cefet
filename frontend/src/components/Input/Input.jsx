@@ -3,8 +3,16 @@ import * as Icon from "react-feather";
 import { VerticalDivider } from "../Divider";
 import { IconButton } from "../IconButton";
 
-export const Input = ({ icon, type, placeholder, value, onChange, name, customStyles, ...props }) => {
-
+export const Input = ({
+  icon,
+  type,
+  placeholder,
+  value,
+  onChange,
+  name,
+  customStyles,
+  ...props
+}) => {
   const handlePasswordVisibility = () => {
     const input = document.getElementById(`input-${name}`);
     if (input.type === "password") {
@@ -36,16 +44,14 @@ export const Input = ({ icon, type, placeholder, value, onChange, name, customSt
         className="peer w-full rounded-lg bg-transparent px-4 text-light-secondary placeholder-input-text focus:outline-none"
         {...props}
       />
-      {
-        type === "password" && (
-          <IconButton
-            icon={<Icon.Eye size={24} />}
-            tooltip="Mostrar Senha"
-            customButtonStyles="text-input-icon dark:text-input-icon p-2"
-            onClickFunction={handlePasswordVisibility}
-          />
-        )
-      }
+      {type === "password" && (
+        <IconButton
+          icon={<Icon.Eye size={24} />}
+          tooltip="Mostrar Senha"
+          customButtonStyles="text-input-icon dark:text-input-icon p-2"
+          onClickFunction={handlePasswordVisibility}
+        />
+      )}
     </div>
   );
 };

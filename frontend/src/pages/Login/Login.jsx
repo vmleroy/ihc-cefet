@@ -22,7 +22,7 @@ export const Login = () => {
   });
 
   const handleEmailChange = (event) => {
-    setUser(({ ...user, email: event.target.value }));
+    setUser({ ...user, email: event.target.value });
   };
 
   const handlePasswordChange = (event) => {
