@@ -1,7 +1,9 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 import * as Icon from "react-feather";
 import avatar from "../../assets/images/avatar.png";
+import { InsideLinks } from "../../utils";
 
 import useDarkMode from "../../hooks/useDarkMode";
 import { Input } from "../../components/Input";
@@ -10,6 +12,9 @@ import { IconButton } from "../../components/IconButton";
 
 
 export const Register = () => {
+
+  const navigate = useNavigate();
+
   const [name, setName] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
@@ -18,6 +23,15 @@ export const Register = () => {
   const handleDarkMode = () => {
     setDarkMode(!darkMode);
     console.log("Dark Mode: ", darkMode);
+  };
+
+  const handleRegisterButtonClick = () => {
+    console.log("Usuario cadastrado com sucesso!")
+    navigate(InsideLinks.login);
+  };
+  
+  const handleVoltarButtonClick = () => {
+    navigate(InsideLinks.login);
   };
 
   return (
@@ -78,8 +92,8 @@ export const Register = () => {
             />
           </div>
           <div className="flex w-1/2 flex-row items-center justify-center gap-2">
-            <Button label="REGISTRAR" customStyles="w-1/2" />
-            <Button label="VOLTAR" customStyles="w-1/2" />
+            <Button label="REGISTRAR" customStyles="w-1/2" onClick={handleRegisterButtonClick} />
+            <Button label="VOLTAR" customStyles="w-1/2" onClick={handleVoltarButtonClick} />
           </div>
         </div>
       </div>

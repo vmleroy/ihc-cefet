@@ -1,9 +1,11 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import * as Icon from "react-feather";
 
 import loginPageCollage from "../../assets/images/login-page-collage.png";
 import logoLight from "../../assets/images/logoLight.png";
 import logoDark from "../../assets/images/logoDark.png";
+import { InsideLinks } from "../../utils";
 
 import useDarkMode from "../../hooks/useDarkMode";
 import { VerticalDivider as Divider } from "../../components/Divider/";
@@ -12,6 +14,8 @@ import { Button } from "../../components/Button";
 import { IconButton } from "../../components/IconButton";
 
 export const Login = () => {
+  const navigate = useNavigate();
+
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
@@ -19,6 +23,14 @@ export const Login = () => {
   const handleDarkMode = () => {
     setDarkMode(!darkMode);
     console.log("Dark Mode: ", darkMode);
+  };
+
+  const handleLoginButtonClick = () => {
+    navigate(InsideLinks.user);
+  };
+
+  const handleRegisterButtonClick = () => {
+    navigate(InsideLinks.register);
   };
 
   return (
@@ -43,7 +55,11 @@ export const Login = () => {
       </div>
       <div className="flex h-full w-1/2 flex-col items-center justify-center">
         <div className="mb-10 w-1/2">
-          <img src={darkMode ? logoDark : logoLight } alt="logo" className="object-contain" />
+          <img
+            src={darkMode ? logoDark : logoLight}
+            alt="logo"
+            className="object-contain"
+          />
         </div>
         <div className="flex w-1/2 flex-col items-center justify-center gap-3">
           <Input
@@ -69,12 +85,14 @@ export const Login = () => {
             customStyles={"w-full"}
           />
           <div className="flex w-full items-center justify-center">
-            <Button label="LOGIN" customStyles="w-1/2" />
+            <Button
+              label="LOGIN"
+              customStyles="w-1/2"
+              onClick={handleLoginButtonClick}
+            />
           </div>
           <div
-            onClick={() => {
-              console.log("resgiter");
-            }}
+            onClick={handleRegisterButtonClick}
             className="w-2/3 overflow-hidden text-center text-light-primary hover:underline"
           >
             Não Possui uma conta? Registre-se
