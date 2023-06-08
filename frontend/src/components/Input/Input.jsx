@@ -27,13 +27,17 @@ export const Input = ({
       className={`flex h-10 flex-row items-center rounded-lg border-2 border-input-stroke border-opacity-[7%] 
         bg-light-inputFill focus-within:border-light-primary dark:bg-dark-inputFill ${customStyles}`}
     >
-      <span
-        alt={`input-icon-${name}`}
-        className="flex w-14 items-center justify-center text-input-icon"
-      >
-        {icon}
-      </span>
-      <VerticalDivider customStyles={"h-2/3"} />
+      {icon && (
+        <span>
+          <span
+            alt={`input-icon-${name}`}
+            className="flex w-14 items-center justify-center text-input-icon"
+          >
+            {icon}
+          </span>
+        </span>
+      )}
+      {icon && <VerticalDivider customStyles={"h-2/3"} /> }
       <input
         id={`input-${name}`}
         type={type}

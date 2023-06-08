@@ -4,7 +4,7 @@ import { styles } from "./styles.js";
 export const IconButton = ({
   icon,
   tooltip = "tooltip 💡",
-  colorOnHover = "hover:text-light-contrast hover:dark:text-dark-contrast",
+  colorOnHover = "",
   onClickFunction,
   customButtonStyles = "",
   customTootlipStyles = "",

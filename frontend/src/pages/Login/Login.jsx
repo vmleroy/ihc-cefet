@@ -16,29 +16,27 @@ import { IconButton } from "../../components/IconButton";
 export const Login = () => {
   const navigate = useNavigate();
 
-  const [user, setUser] = React.useState({
-    email: "",
-    password: "",
-  });
-
-  const handleEmailChange = (event) => {
-    setUser({ ...user, email: event.target.value });
-  };
-
-  const handlePasswordChange = (event) => {
-    setUser({ ...user, password: event.target.value });
-  };
-
   const [darkMode, setDarkMode] = useDarkMode();
   const handleDarkMode = () => {
     setDarkMode(!darkMode);
     console.log("Dark Mode: ", darkMode);
   };
 
-  const handleLoginButtonClick = () => {
-    navigate(InsideLinks.user);
+  const [user, setUser] = React.useState({
+    email: "",
+    password: "",
+  });
+  const handleEmailChange = (event) => {
+    setUser({ ...user, email: event.target.value });
+  };
+  const handlePasswordChange = (event) => {
+    setUser({ ...user, password: event.target.value });
   };
 
+  const handleLoginButtonClick = () => {
+    console.log("Usuario logado com sucesso!");
+    navigate(InsideLinks.home);
+  };
   const handleRegisterButtonClick = () => {
     navigate(InsideLinks.register);
   };
@@ -93,7 +91,6 @@ export const Login = () => {
             }}
             name="password"
             customStyles={"w-full"}
-            minlength="6"
           />
           <div className="flex w-full items-center justify-center">
             <Button
@@ -116,6 +113,7 @@ export const Login = () => {
             icon={<Icon.Sun size={24} />}
             tooltip="Light Mode"
             onClickFunction={handleDarkMode}
+            customButtonStyles="text-dark-background"
             customTootlipStyles="left-16"
           />
         ) : (
@@ -123,6 +121,7 @@ export const Login = () => {
             icon={<Icon.Moon size={24} />}
             tooltip="Dark Mode"
             onClickFunction={handleDarkMode}
+            customButtonStyles="text-light-background"
             customTootlipStyles="left-16"
           />
         )}

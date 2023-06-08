@@ -63,7 +63,7 @@ export const Register = () => {
               <IconButton
                 icon={<Icon.HelpCircle size={24} />}
                 tooltip="Selecione uma foto de perfil clicando na imagem"
-                customButtonStyles="bg-light-primary dark:bg-dark-primary rounded-full dark:text-light-background"
+                customButtonStyles="text-light-background bg-light-primary rounded-full"
               />
             </div>
             <img src={avatar} alt="logo" className="object-contain p-3" />
@@ -123,6 +123,7 @@ export const Register = () => {
             icon={<Icon.Sun size={24} />}
             tooltip="Light Mode"
             onClickFunction={handleDarkMode}
+            customButtonStyles="text-dark-background"
             customTootlipStyles="left-16"
           />
         ) : (
@@ -130,6 +131,7 @@ export const Register = () => {
             icon={<Icon.Moon size={24} />}
             tooltip="Dark Mode"
             onClickFunction={handleDarkMode}
+            customButtonStyles="text-light-background"
             customTootlipStyles="left-16"
           />
         )}
