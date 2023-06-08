@@ -5,7 +5,6 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
   try {
-    console.log("req.query: ", req.query)
     const filters = req.query;
     const result = await userService.index(filters);
     res.status(200).json(result);

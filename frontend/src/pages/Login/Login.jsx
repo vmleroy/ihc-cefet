@@ -12,6 +12,7 @@ import { VerticalDivider as Divider } from "../../components/Divider/";
 import { Input } from "../../components/Input/";
 import { Button } from "../../components/Button";
 import { IconButton } from "../../components/IconButton";
+import { useUsers } from "../../api/user";
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -26,6 +27,22 @@ export const Login = () => {
     email: "",
     password: "",
   });
+
+  const [loggingIn, setLoggingIn] = React.useState(false);
+  useUsers(user, {
+    enabled: loggingIn,
+    onSuccess: ([data]) => {
+      if (!data) {
+        console.log("Usuário não encontrado!");
+      } else {
+        console.log("Usuario logado com sucesso!");
+        localStorage.setItem("user", JSON.stringify(data));
+        navigate(InsideLinks.home);
+      }
+      setLoggingIn(false);
+    },
+  });
+
   const handleEmailChange = (event) => {
     setUser({ ...user, email: event.target.value });
   };
@@ -34,8 +51,7 @@ export const Login = () => {
   };
 
   const handleLoginButtonClick = () => {
-    console.log("Usuario logado com sucesso!");
-    navigate(InsideLinks.home);
+    setLoggingIn(true);
   };
   const handleRegisterButtonClick = () => {
     navigate(InsideLinks.register);
@@ -101,7 +117,7 @@ export const Login = () => {
           </div>
           <div
             onClick={handleRegisterButtonClick}
-            className="w-2/3 overflow-hidden text-center text-light-primary hover:underline"
+            className="w-2/3 overflow-hidden text-center text-light-primary hover:cursor-pointer hover:underline"
           >
             Não Possui uma conta? Registre-se
           </div>

@@ -2,17 +2,18 @@ import { useQuery } from "react-query";
 
 const usePost = (id) => {
   return useQuery(["post", id], async () => {
-    const response = await fetch(`http://localhost:1999/post/${id}`);
+    const response = await fetch(`http://localhost:1999/api/post/${id}`);
     return response.json();
   });
 };
 
 const usePosts = (filters) => {
-  const stringifiedFilters = JSON.stringify(filters);
+  const stringifiedFilters = new URLSearchParams(
+    JSON.parse(JSON.stringify(filters))
+  ).toString();
   return useQuery("posts", async () => {
     const response = await fetch(
-      "http://localhost:1999/post" +
-        (filters ? `?filters=${stringifiedFilters}` : "")
+      `http://localhost:1999/api/post?${stringifiedFilters}`
     );
     return response.json();
   });
@@ -20,7 +21,7 @@ const usePosts = (filters) => {
 
 const useCreatePost = () => {
   return useMutation(async (data) => {
-    const response = await fetch("http://localhost:1999/post", {
+    const response = await fetch("http://localhost:1999/api/post", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -34,7 +35,7 @@ const useCreatePost = () => {
 
 const useUpdatePost = (id) => {
   return useMutation(async (data) => {
-    const response = await fetch("http://localhost:1999/post/" + id, {
+    const response = await fetch("http://localhost:1999/api/post/" + id, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -48,7 +49,7 @@ const useUpdatePost = (id) => {
 
 const useDeletePost = (id) => {
   return useMutation(async () => {
-    const response = await fetch("http://localhost:1999/post" + id, {
+    const response = await fetch("http://localhost:1999/api/post" + id, {
       method: "DELETE",
     });
 

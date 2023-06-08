@@ -1,9 +1,11 @@
 import React from "react";
 import { RouterProvider } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 import { NavRouter } from "./routes";
 import useDarkMode from "./hooks/useDarkMode";
 
+const queryClient = new QueryClient();
 const App = () => {
   const [message, setMessage] = React.useState("");
   // fetch("http://localhost:1999/")
@@ -12,8 +14,11 @@ const App = () => {
 
   const [darkMode, setDarkMode] = useDarkMode();
 
-  return <RouterProvider router={NavRouter} />;
-
+  return (
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={NavRouter} />
+    </QueryClientProvider>
+  );
 };
 
 export default App;

@@ -10,7 +10,11 @@ import { Input } from "../../components/Input";
 import { Button } from "../../components/Button";
 import { IconButton } from "../../components/IconButton";
 
+import { useCreateUser } from "../../api/user";
+
 export const Register = () => {
+  const { mutate: createUser } = useCreateUser();
+  console.log(createUser);
   const navigate = useNavigate();
 
   const [user, setUser] = React.useState({
@@ -38,8 +42,12 @@ export const Register = () => {
   };
 
   const handleRegisterButtonClick = () => {
-    console.log("Usuario cadastrado com sucesso!");
-    navigate(InsideLinks.login);
+    createUser(user, {
+      onSuccess: () => {
+        console.log("Usuario cadastrado com sucesso!");
+        navigate(InsideLinks.login);
+      },
+    });
   };
 
   const handleVoltarButtonClick = () => {

@@ -1,26 +1,31 @@
-import { useQuery } from "react-query";
+import { useQuery, useMutation } from "react-query";
 
 const useUser = (id) => {
   return useQuery(["user", id], async () => {
-    const response = await fetch(`http://localhost:1999/user/${id}`);
+    const response = await fetch(`http://localhost:1999/api/user/${id}`);
     return response.json();
   });
 };
 
-const useUsers = (filters) => {
-  const stringifiedFilters = JSON.stringify(filters);
-  return useQuery("users", async () => {
-    const response = await fetch(
-      "http://localhost:1999/user" +
-        (filters ? `?filters=${stringifiedFilters}` : "")
-    );
-    return response.json();
-  });
+const useUsers = (filters, options) => {
+  const stringifiedFilters = new URLSearchParams(
+    JSON.parse(JSON.stringify(filters))
+  ).toString();
+  return useQuery(
+    "users",
+    async () => {
+      const response = await fetch(
+        `http://localhost:1999/api/user?${stringifiedFilters}`
+      );
+      return response.json();
+    },
+    options
+  );
 };
 
 const useCreateUser = () => {
   return useMutation(async (data) => {
-    const response = await fetch("http://localhost:1999/user", {
+    const response = await fetch("http://localhost:1999/api/user", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -34,7 +39,7 @@ const useCreateUser = () => {
 
 const useUpdateUser = (id) => {
   return useMutation(async (data) => {
-    const response = await fetch("http://localhost:1999/user/" + id, {
+    const response = await fetch("http://localhost:1999/api/user/" + id, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -48,7 +53,7 @@ const useUpdateUser = (id) => {
 
 const useDeleteUser = (id) => {
   return useMutation(async () => {
-    const response = await fetch("http://localhost:1999/user" + id, {
+    const response = await fetch("http://localhost:1999/api/user" + id, {
       method: "DELETE",
     });
 
