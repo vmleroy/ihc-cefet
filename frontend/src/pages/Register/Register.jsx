@@ -15,9 +15,42 @@ export const Register = () => {
 
   const navigate = useNavigate();
 
-  const [name, setName] = React.useState("");
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
+  const [user, setUser] = React.useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+  
+  const handleNameChange = (event) => {
+    setUser({ ...user, name: event.target.value });
+  };
+
+  const handleEmailChange = (event) => {
+    const restrictions = "/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/"
+    const restrictionAccepted = restrictions.test(event.target.value);
+    if (restrictionAccepted) {
+      setUser({ ...user, email: event.target.value });
+    } else {
+      console.log("Email não atende aos requisitos!");
+      return;
+    }
+  };
+
+  const handlePasswordChange = (event) => {
+    if (event.target.value.length < 6) {
+      console.log("Senha muito curta!");
+      return;
+    } else {
+      let restrictions = "/^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/";
+      const restrictionAccepted = restrictions.test(event.target.value);
+      if (restrictionAccepted) {
+        setUser({ ...user, password: event.target.value });
+      } else {
+        console.log("Senha não atende aos requisitos!");
+        return;
+      }
+    }   
+  };
 
   const [darkMode, setDarkMode] = useDarkMode();
   const handleDarkMode = () => {
@@ -61,9 +94,9 @@ export const Register = () => {
               icon={<Icon.User size={22} />}
               type="text"
               placeholder="Nome Completo"
-              value={name}
+              value={user.name}
               onChange={(event) => {
-                setName(event.target.value);
+                handleNameChange(event);
               }}
               name="name"
               customStyles={"w-full"}
@@ -72,9 +105,9 @@ export const Register = () => {
               icon={<Icon.AtSign size={22} />}
               type="email"
               placeholder="Email"
-              value={email}
+              value={user.email}
               onChange={(event) => {
-                setEmail(event.target.value);
+                handleEmailChange(event);
               }}
               name="email"
               customStyles={"w-full"}
@@ -83,9 +116,9 @@ export const Register = () => {
               icon={<Icon.Key size={22} />}
               type="password"
               placeholder="Senha"
-              value={password}
+              value={user.password}
               onChange={(event) => {
-                setPassword(event.target.value);
+                handlePasswordChange(event);
               }}
               name="password"
               customStyles={"w-full"}

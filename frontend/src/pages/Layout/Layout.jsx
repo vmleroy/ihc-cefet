@@ -7,7 +7,10 @@ export const Layout = () => {
   }, []);
 
   return (
-    <div className="h-screen w-screen bg-light-background font-archivoNarrow text-light-secondary dark:bg-dark-background dark:text-dark-secondary">
+    <div
+      className="h-screen w-screen bg-light-background font-archivoNarrow text-light-secondary transition-all 
+      duration-100 dark:bg-dark-background dark:text-dark-secondary"
+    >
       <Outlet />
     </div>
   );

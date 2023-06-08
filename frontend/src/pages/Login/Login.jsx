@@ -16,8 +16,18 @@ import { IconButton } from "../../components/IconButton";
 export const Login = () => {
   const navigate = useNavigate();
 
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
+  const [user, setUser] = React.useState({
+    email: "",
+    password: "",
+  });
+
+  const handleEmailChange = (event) => {
+    setUser(user => ({ ...user, email: event.target.value }));
+  };
+
+  const handlePasswordChange = (event) => {
+    setUser({ ...user, password: event.target.value });
+  };
 
   const [darkMode, setDarkMode] = useDarkMode();
   const handleDarkMode = () => {
@@ -66,9 +76,9 @@ export const Login = () => {
             icon={<Icon.AtSign size={22} />}
             type="email"
             placeholder="Email"
-            value={email}
+            value={user.email}
             onChange={(event) => {
-              setEmail(event.target.value);
+              handleEmailChange(event);
             }}
             name="email"
             customStyles={"w-full"}
@@ -77,12 +87,13 @@ export const Login = () => {
             icon={<Icon.Key size={22} />}
             type="password"
             placeholder="Senha"
-            value={password}
+            value={user.password}
             onChange={(event) => {
-              setPassword(event.target.value);
+              handlePasswordChange(event);
             }}
             name="password"
             customStyles={"w-full"}
+            minlength="6"
           />
           <div className="flex w-full items-center justify-center">
             <Button

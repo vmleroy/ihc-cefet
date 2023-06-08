@@ -1,7 +1,7 @@
 import React from "react";
 import { VerticalDivider } from "../Divider";
 
-export const Input = ({ icon, type, placeholder, value, onChange, name, customStyles }) => {
+export const Input = ({ icon, type, placeholder, value, onChange, name, customStyles, ...props }) => {
   return (
     <div
       className={`flex h-10 flex-row items-center rounded-lg border-2 border-input-stroke border-opacity-[7%] 
@@ -21,6 +21,7 @@ export const Input = ({ icon, type, placeholder, value, onChange, name, customSt
         onChange={onChange}
         name={name}
         className="peer w-full rounded-lg bg-transparent px-4 text-light-secondary placeholder-input-text focus:outline-none"
+        {...props}
       />
     </div>
   );
