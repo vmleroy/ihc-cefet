@@ -19,6 +19,7 @@ export const SideBar = () => {
   };
 
   const handleButtonClickNavigation = (url) => {
+    if (window.location.pathname === url) navigate(0);
     navigate(url);
   };
 

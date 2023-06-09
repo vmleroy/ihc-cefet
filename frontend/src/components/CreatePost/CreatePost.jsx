@@ -3,13 +3,18 @@ import React from "react";
 import { Button } from "../../components/Button";
 import { IconButton } from "../../components/IconButton";
 
-export const CreatePost = ({ icon, type, value, onChange, name, size }) => {
+export const CreatePost = ({ icon, size }) => {
+  
+  const localUser = JSON.parse(localStorage.getItem("user"));
+  const [value, setValue] = React.useState("")
+
   let textAreaHeight = "h-12";
 
   const onInputTextArea = (e) => {
     e.target.style.height = "inherit";
     e.target.style.height = `${e.target.scrollHeight}px`;
     textAreaHeight = `h-[${e.target.scrollHeight}px]`;
+    setValue(e.target.value);
   };
 
   return (
@@ -18,8 +23,7 @@ export const CreatePost = ({ icon, type, value, onChange, name, size }) => {
         className={`bg-light-inputFill dark:bg-dark-inputFill resize-[${textAreaHeight}] rounded-t-lg focus-within:border-light-primary`}
       >
         <textarea
-          id={`textarea-${name}`}
-          type={type}
+          id={`textarea-${localUser.name}`}
           value={value}
           placeholder="O que você está pensando..."
           className="peer w-full resize-none rounded-lg bg-light-inputFill bg-transparent px-4 text-light-secondary placeholder-input-text outline-none"
@@ -29,7 +33,7 @@ export const CreatePost = ({ icon, type, value, onChange, name, size }) => {
       <div className="flex flex-row ">
         <div className="left-0 flex w-fit flex-row rounded-b-xl bg-light-inputFill dark:bg-dark-inputFill">
           <span
-            alt={`input-icon-${name}`}
+            alt={`input-icon-${localUser.name}`}
             className="flex w-14 items-center justify-center text-input-icon"
           >
             <IconButton icon={icon} tooltip="Adicionar foto" />

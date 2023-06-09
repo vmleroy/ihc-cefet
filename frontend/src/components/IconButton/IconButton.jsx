@@ -4,7 +4,8 @@ import { styles } from "./styles.js";
 export const IconButton = ({
   icon,
   tooltip = "tooltip 💡",
-  colorOnHover = "",
+  haveTooltip = true,
+  colorOnHover = "hover:text-dark-background hover:dark:text-light-background",
   onClickFunction,
   customButtonStyles = "",
   customTootlipStyles = "",
@@ -16,11 +17,13 @@ export const IconButton = ({
       onClick={onClickFunction}
     >
       {icon}
-      <span
-        className={`pointer-events-none group-hover:scale-100 ${styles.tooltip} ${customTootlipStyles}`}
-      >
-        {tooltip}
-      </span>
+      {haveTooltip && (
+        <span
+          className={`pointer-events-none group-hover:scale-100 ${styles.tooltip} ${customTootlipStyles}`}
+        >
+          {tooltip}
+        </span>
+      )}
     </div>
   );
 };
