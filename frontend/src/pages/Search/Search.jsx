@@ -6,6 +6,15 @@ import { Button } from "../../components/Button";
 import { friendMock } from "../../utils";
 
 export const Search = () => {
+
+  const onSearch = () => {
+    console.log("Pesquisado!");
+  }
+
+  const onClickUser = (user) => {
+    console.log("User: ", user._id, user.name, "clicado!");
+  };
+
   return (
     <div className="h-full w-full overflow-auto p-5">
       <div className="flex flex-col items-center justify-center gap-8">
@@ -24,12 +33,16 @@ export const Search = () => {
             customStyles={
               "w-fit p-2 bg-light-primary text-white dark:text-light-background hover:brightness-75 dark:hover:brightness-75"
             }
-            onClick={() => {}}
+            onClick={() => {onSearch()}}
           />
         </div>
         <div className="flex w-3/4 flex-col gap-5">
           {friendMock.map((friend) => (
-            <div key={friend._id} className="flex flex-row items-center gap-2 rounded-lg bg-light-background dark:bg-dark-background p-2">
+            <div
+              key={friend._id}
+              className="flex flex-row items-center gap-2 rounded-lg bg-light-background p-2 hover:brightness-75 dark:bg-dark-background"
+              onClick={() => onClickUser(friend)}
+            >
               <img
                 src={friend.profilePictureSrc}
                 alt="profile picture"
