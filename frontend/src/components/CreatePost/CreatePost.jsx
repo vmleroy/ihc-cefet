@@ -4,9 +4,8 @@ import { Button } from "../../components/Button";
 import { IconButton } from "../../components/IconButton";
 
 export const CreatePost = ({ icon, size }) => {
-  
   const localUser = JSON.parse(localStorage.getItem("user"));
-  const [value, setValue] = React.useState("")
+  const [value, setValue] = React.useState("");
 
   let textAreaHeight = "h-12";
 
@@ -15,6 +14,10 @@ export const CreatePost = ({ icon, size }) => {
     e.target.style.height = `${e.target.scrollHeight}px`;
     textAreaHeight = `h-[${e.target.scrollHeight}px]`;
     setValue(e.target.value);
+  };
+
+  const onClickPost = () => {
+    console.log("Postado!");
   };
 
   return (
@@ -36,7 +39,11 @@ export const CreatePost = ({ icon, size }) => {
             alt={`input-icon-${localUser.name}`}
             className="flex w-14 items-center justify-center text-input-icon"
           >
-            <IconButton icon={icon} tooltip="Adicionar foto" />
+            <IconButton
+              icon={icon}
+              tooltip="Adicionar foto"
+              customButtonStyles="text-dark-background hover:dark:text-dark-background"
+            />
           </span>
         </div>
         <div className="w-full" />
@@ -44,6 +51,7 @@ export const CreatePost = ({ icon, size }) => {
           <Button
             label="POSTAR"
             customStyles="w-fit p-2 rounded-t-none bg-light-primary text-white dark:text-light-background hover:brightness-75 dark:hover:brightness-75"
+            onClick={onClickPost}
           />
         </div>
       </div>

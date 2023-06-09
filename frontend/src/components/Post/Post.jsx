@@ -9,12 +9,16 @@ export const Post = ({ post }) => {
   const localUser = JSON.parse(localStorage.getItem("user"));
   const date = new Date(post.timestamp).toLocaleString();
   const alreadyLiked = post.likes.some(
-    (like) => like.user._id === localUser._id
+    (like) => like.user.__id === localUser.__id
   );
 
   const [newComment, setNewComment] = React.useState("");
+  
+  const onClickLike = (e) => {
+    console.log("Liked!", e.target.id);
+  }
   const onClickComment = () => {
-    console.log(newComment);
+    console.log('Commented!', newComment);
   };
 
   return (
@@ -37,10 +41,12 @@ export const Post = ({ post }) => {
         <div className="w-full">{post.text}</div>
         <div className="flex flex-row items-center gap-2">
           <IconButton
+            id={`like-${post.__id}`}
             icon={<Icon.Heart size={18} />}
             haveTooltip={false}
             colorOnHover={"hover:text-red-700"}
             customButtonStyles={alreadyLiked ? "text-red-700" : ""}
+            onClickFunction={onClickLike}
           />
           <p>{post.likes.length}</p>
         </div>
@@ -67,7 +73,7 @@ export const Post = ({ post }) => {
             className="flex h-fit w-full flex-col items-center pl-4 pt-2"
           >
             <div
-              id="user"
+              id={`user-${comment.index}`}
               className="flex h-fit w-full flex-row items-center gap-2"
             >
               <img
@@ -80,14 +86,16 @@ export const Post = ({ post }) => {
                 <h2>{date}</h2>
               </div>
             </div>
-            <div id="comment" className="flex h-fit w-full flex-row gap-2">
+            <div id={`comment-${comment.index}`} className="flex h-fit w-full flex-row gap-2">
               <CommentTextArea writable={false} value={post.text} />
               <div className="flex flex-row items-center gap-2">
                 <IconButton
+                  id={`like-${comment.index}`}
                   icon={<Icon.Heart size={18} />}
                   haveTooltip={false}
                   colorOnHover={"hover:text-red-700"}
                   customButtonStyles={alreadyLiked ? "text-red-700" : ""}
+                  onClickFunction={onClickLike}
                 />
                 <p>{comment.likes.length}</p>
               </div>
