@@ -52,7 +52,7 @@ export const Post = ({ post }) => {
             <p>{post.likes.length}</p>
           </div>
         </div>
-        <img src={post.imageSrc} alt="post" className="w-full p-4 object-contain" />
+        {post.imageSrc && <img src={post.imageSrc} alt="post" className="w-full p-4 object-contain" />}
       </div>
       <div
         id="comment"
