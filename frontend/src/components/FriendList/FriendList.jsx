@@ -26,6 +26,10 @@ export const FriendList = ({ friends }) => {
     }
   };
 
+  const onClickFriend = (friend) => {
+    console.log(friend);
+  };
+
   return (
     <div className="w-full flex flex-col items-center gap-2">
       <p className="w-fit font-bold"> Amigos </p>
@@ -36,7 +40,7 @@ export const FriendList = ({ friends }) => {
           onClickFunction={onClickLeftArrow}
         />
         <div className="flex w-fit flex-row gap-5">
-          <FriendComponent friends={friends} start={startPositionInArray} end={startPositionInArray + numberOfFriendsShown}/>
+          <FriendComponent friends={friends} start={startPositionInArray} end={startPositionInArray + numberOfFriendsShown} onClick={onClickFriend}/>
         </div>
         <IconButton
           icon={<Icon.ArrowRight size={18} />}

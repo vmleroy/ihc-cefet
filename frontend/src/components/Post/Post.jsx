@@ -13,12 +13,12 @@ export const Post = ({ post }) => {
   );
 
   const [newComment, setNewComment] = React.useState("");
-  
-  const onClickLike = (e) => {
-    console.log("Liked!", e.target.id);
-  }
+
+  const onClickLike = (object) => {
+    console.log("Liked!", object);
+  };
   const onClickComment = () => {
-    console.log('Commented!', newComment);
+    console.log("Commented!", newComment);
   };
 
   return (
@@ -36,20 +36,23 @@ export const Post = ({ post }) => {
       </div>
       <div
         id="content"
-        className="flex h-fit w-full flex-row items-center pl-4 pt-2"
+        className="flex h-fit w-full flex-col items-center pt-2"
       >
-        <div className="w-full">{post.text}</div>
-        <div className="flex flex-row items-center gap-2">
-          <IconButton
-            id={`like-${post.__id}`}
-            icon={<Icon.Heart size={18} />}
-            haveTooltip={false}
-            colorOnHover={"hover:text-red-700"}
-            customButtonStyles={alreadyLiked ? "text-red-700" : ""}
-            onClickFunction={onClickLike}
-          />
-          <p>{post.likes.length}</p>
+        <div className="flex w-full flex-row items-center">
+          <div className="w-full pl-4">{post.text}</div>
+          <div className="flex flex-row items-center gap-2">
+            <IconButton
+              id={`like-${post._id}`}
+              icon={<Icon.Heart size={18} />}
+              haveTooltip={false}
+              colorOnHover={"hover:text-red-700"}
+              customButtonStyles={alreadyLiked ? "text-red-700" : ""}
+              onClickFunction={() => onClickLike(post)}
+            />
+            <p>{post.likes.length}</p>
+          </div>
         </div>
+        <img src={post.imageSrc} alt="post" className="w-full p-4 object-contain" />
       </div>
       <div
         id="comment"
@@ -86,7 +89,10 @@ export const Post = ({ post }) => {
                 <h2>{date}</h2>
               </div>
             </div>
-            <div id={`comment-${comment.index}`} className="flex h-fit w-full flex-row gap-2">
+            <div
+              id={`comment-${comment.index}`}
+              className="flex h-fit w-full flex-row gap-2"
+            >
               <CommentTextArea writable={false} value={post.text} />
               <div className="flex flex-row items-center gap-2">
                 <IconButton
@@ -95,7 +101,7 @@ export const Post = ({ post }) => {
                   haveTooltip={false}
                   colorOnHover={"hover:text-red-700"}
                   customButtonStyles={alreadyLiked ? "text-red-700" : ""}
-                  onClickFunction={onClickLike}
+                  onClickFunction={() => onClickLike(comment)}
                 />
                 <p>{comment.likes.length}</p>
               </div>

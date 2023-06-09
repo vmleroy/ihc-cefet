@@ -8,7 +8,6 @@ export const postMock = [
       profilePictureSrc: "https://picsum.photos/200",
     },
     text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.",
-    imageSrc: "https://picsum.photos/200",
     likes: [
       {
         user: {
@@ -126,7 +125,6 @@ export const postMock = [
       profilePictureSrc: "https://picsum.photos/200",
     },
     text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.",
-    imageSrc: "https://picsum.photos/200",
     likes: [
       {
         user: {
