@@ -4,4 +4,5 @@ export const InsideLinks = {
   register: "/register",
   userProfile: "/user",
   home: "/home",
+  search: "/search",
 };

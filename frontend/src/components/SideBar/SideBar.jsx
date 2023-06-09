@@ -44,6 +44,11 @@ export const SideBar = () => {
           onClickFunction={() => handleButtonClickNavigation(InsideLinks.home)}
         />
         <IconButton
+          icon={<Icon.Search size={24} />}
+          tooltip="Search"
+          onClickFunction={() => handleButtonClickNavigation(InsideLinks.search)}
+        />
+        <IconButton
           icon={<Icon.LogOut size={24} />}
           tooltip="Logout"
           onClickFunction={() => handleButtonClickNavigation(InsideLinks.login)}

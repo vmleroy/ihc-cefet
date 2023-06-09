@@ -316,8 +316,7 @@ export const Home = () => {
   ];
 
   return (
-    <div className="h-full w-full overflow-auto">
-      <h1 className="text-center text-4xl">Home</h1>
+    <div className="h-full w-full overflow-auto p-5">
       <div className="flex justify-center">
         <div className="flex w-3/4 flex-col gap-8">
           <div id="friend-list" className="flex w-full">
@@ -328,7 +327,7 @@ export const Home = () => {
           </div>
           <div
             id="posts"
-            className="mb-5 flex w-full flex-col gap-5 rounded-b-lg rounded-t-lg bg-light-background p-2 dark:bg-dark-background"
+            className="flex w-full flex-col gap-5 rounded-b-lg rounded-t-lg bg-light-background p-2 dark:bg-dark-background"
           >
             {postMock.map((post, index) => (
               <div

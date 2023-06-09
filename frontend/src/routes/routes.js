@@ -9,6 +9,7 @@ import { Register } from "../pages/Register";
 
 import { LayoutLogged } from "../pages/Layout";
 import { Home } from "../pages/Home";
+import { Search } from "../pages/Search";
 
 const Root = () => {
   return (
@@ -21,6 +22,7 @@ const Root = () => {
       </Route>
       <Route element={<LayoutLogged />}>
         <Route path="home" element={<Home />} />
+        <Route path="search" element={<Search />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

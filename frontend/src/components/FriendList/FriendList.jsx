@@ -27,20 +27,23 @@ export const FriendList = ({ friends }) => {
   };
 
   return (
-    <div className="flex w-full flex-row">
-      <IconButton
-        icon={<Icon.ArrowLeft size={18} />}
-        haveTooltip={false}
-        onClickFunction={onClickLeftArrow}
-      />
-      <div className="flex w-fit flex-row gap-5">
-        <FriendComponent friends={friends} start={startPositionInArray} end={startPositionInArray + numberOfFriendsShown}/>
+    <div className="w-full flex flex-col items-center gap-2">
+      <p className="w-fit font-bold"> Amigos </p>
+      <div className="flex w-full flex-row">
+        <IconButton
+          icon={<Icon.ArrowLeft size={18} />}
+          haveTooltip={false}
+          onClickFunction={onClickLeftArrow}
+        />
+        <div className="flex w-fit flex-row gap-5">
+          <FriendComponent friends={friends} start={startPositionInArray} end={startPositionInArray + numberOfFriendsShown}/>
+        </div>
+        <IconButton
+          icon={<Icon.ArrowRight size={18} />}
+          haveTooltip={false}
+          onClickFunction={onClickRightArrow}
+        />
       </div>
-      <IconButton
-        icon={<Icon.ArrowRight size={18} />}
-        haveTooltip={false}
-        onClickFunction={onClickRightArrow}
-      />
     </div>
   );
 };

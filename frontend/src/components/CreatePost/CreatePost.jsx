@@ -43,7 +43,7 @@ export const CreatePost = ({ icon, size }) => {
         <div className="right-0 flex w-fit flex-row rounded-b-xl bg-light-inputFill dark:bg-dark-inputFill">
           <Button
             label="POSTAR"
-            customStyles="w-20 rounded-t-none bg-light-primary text-white dark:text-light-background hover:brightness-75 dark:hover:brightness-75"
+            customStyles="w-fit p-2 rounded-t-none bg-light-primary text-white dark:text-light-background hover:brightness-75 dark:hover:brightness-75"
           />
         </div>
       </div>

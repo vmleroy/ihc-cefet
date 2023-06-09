@@ -56,7 +56,7 @@ export const Post = ({ post }) => {
         />
         <Button
           label="Comentar"
-          customStyles="w-20 bg-light-primary text-white dark:text-light-background hover:brightness-75 dark:hover:brightness-75"
+          customStyles="w-fit p-2 bg-light-primary text-white dark:text-light-background hover:brightness-75 dark:hover:brightness-75"
           onClick={onClickComment}
         />
       </div>

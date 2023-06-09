@@ -10,7 +10,7 @@ export const LayoutLogged = () => {
       text-light-secondary transition-all duration-100 dark:bg-dark-backgroundSecondary dark:text-dark-secondary"
     >
       <SideBar />
-      <div className="w-full h-full">
+      <div className="h-full w-full">
         <Outlet />
       </div>
     </div>
