@@ -8,7 +8,7 @@ import { useUpdatePost } from "../../api/post";
 
 import { useQueryClient } from "react-query";
 
-export const Post = ({ post }) => {
+export const Post = ({ post, setLocalPosts }) => {
   const { mutate: updatePost } = useUpdatePost(post._id);
   const queryClient = useQueryClient();
   const localUser = JSON.parse(localStorage.getItem("user"));
@@ -16,9 +16,7 @@ export const Post = ({ post }) => {
 
   const [commentText, setCommentText] = React.useState("");
 
-  const [isPostLiked, setIsPostLiked] = React.useState(
-    post.likes.includes(localUser._id)
-  );
+  const isPostLiked = post.likes.includes(localUser._id);
   const onClickLikePost = () => {
     const newLikes = isPostLiked
       ? post.likes.filter((userId) => userId !== localUser._id)
@@ -29,9 +27,18 @@ export const Post = ({ post }) => {
         likes: newLikes,
       },
       {
-        onSuccess: (data) => {
-          console.log("Liked/Unliked!", data);
-          setIsPostLiked(!isPostLiked);
+        onSuccess: () => {
+          setLocalPosts((prev) =>
+            prev.map((p) => {
+              if (p._id === post._id) {
+                return {
+                  ...p,
+                  likes: newLikes,
+                };
+              }
+              return p;
+            })
+          );
           queryClient.invalidateQueries("posts");
         },
       }
@@ -50,40 +57,61 @@ export const Post = ({ post }) => {
         ],
       },
       {
-        onSuccess: (data) => {
-          console.log("Commented!", data);
+        onSuccess: () => {
+          setLocalPosts((prev) =>
+            prev.map((p) => {
+              if (p._id === post._id) {
+                return {
+                  ...p,
+                  comments: [
+                    ...p.comments,
+                    {
+                      userId: localUser._id,
+                      text: commentText,
+                      likes: [],
+                      user: localUser,
+                    },
+                  ],
+                };
+              }
+              return p;
+            })
+          );
           queryClient.invalidateQueries("posts");
         },
       }
     );
   };
-  const onClickLikeComment = (isCommentLiked) => {
-    const newComments = isCommentLiked
-      ? post.comments.map((comment) => {
-          if (comment._id === clickedComment._id) {
-            return {
-              ...comment,
-              likes: comment.likes.filter((userId) => userId !== localUser._id),
-            };
-          }
-          return comment;
-        })
-      : post.comments.map((comment) => {
-          if (comment._id === clickedComment._id) {
-            return {
-              ...comment,
-              likes: [...comment.likes, localUser._id],
-            };
-          }
-          return comment;
-        });
+  const onClickLikeComment = (isCommentLiked, index) => {
+    const newComments = post.comments.map((comment, localIndex) => {
+      if (localIndex === index) {
+        const newCommentLikes = isCommentLiked
+          ? comment.likes.filter((userId) => userId !== localUser._id)
+          : [...comment.likes, localUser._id];
+        return {
+          ...comment,
+          likes: newCommentLikes,
+        };
+      }
+      return comment;
+    });
     updatePost(
       {
-        comments: newComments
+        comments: newComments,
       },
       {
-        onSuccess: (data) => {
-          console.log("Liked!", data);
+        onSuccess: () => {
+          setLocalPosts((prev) =>
+            prev.map((p) => {
+              if (p._id === post._id) {
+                return {
+                  ...p,
+                  comments: newComments,
+                };
+              }
+              return p;
+            })
+          );
           queryClient.invalidateQueries("posts");
         },
       }
@@ -147,7 +175,7 @@ export const Post = ({ post }) => {
       <div id="users-comment" className="mt-4 flex h-fit w-full flex-col">
         {post.comments.map((comment, index) => {
           const isCommentLiked = comment.likes.some(
-            (like) => like.userId === localUser._id
+            (userId) => userId === localUser._id
           );
           return (
             <div
@@ -180,7 +208,9 @@ export const Post = ({ post }) => {
                     haveTooltip={false}
                     colorOnHover={"hover:text-red-700"}
                     customButtonStyles={isCommentLiked ? "text-red-700" : ""}
-                    onClickFunction={() => onClickLike(isCommentLiked)}
+                    onClickFunction={() =>
+                      onClickLikeComment(isCommentLiked, index)
+                    }
                   />
                   <p>{comment.likes.length}</p>
                 </div>

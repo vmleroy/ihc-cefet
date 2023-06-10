@@ -76,7 +76,7 @@ export const Home = () => {
                 className="flex h-fit w-full flex-col gap-5"
                 key={`post-${post._id}`}
               >
-                <Post post={post} />
+                <Post post={post} setLocalPosts={setLocalPosts} />
                 {localPosts.length > 1 && index < localPosts.length - 1 && (
                   <HorizontalDivider />
                 )}
