@@ -144,7 +144,7 @@ export const Post = ({ post }) => {
           onClick={onClickComment}
         />
       </div>
-      <div id="users-comment" className="mt-4 flex h-fit w-full">
+      <div id="users-comment" className="mt-4 flex h-fit w-full flex-col">
         {post.comments.map((comment, index) => {
           const isCommentLiked = comment.likes.some(
             (like) => like.userId === localUser._id
