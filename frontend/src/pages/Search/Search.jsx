@@ -6,35 +6,28 @@ import { Button } from "../../components/Button";
 import { useUsers } from "../../api/user";
 
 export const Search = () => {
-  const [search, setSearch] = React.useState({
-    text: "",
-    isSearching: false,
-  });
+  const [searchText, setSearchText] = React.useState("");
 
+  const localUser = JSON.parse(localStorage.getItem("user"));
   const { data: users } = useUsers(
     {
-      name: {
-        $regex: search.text,
-        $options: "i",
-      },
+      ...(!searchText
+        ? {
+            _id: {
+              $in: localUser.friends,
+            },
+          }
+        : {
+            name: {
+              $regex: searchText,
+              $options: "i",
+            },
+          }),
     },
     {
-      enabled: search.isSearching,
       initialData: [],
-      onSuccess: () => {
-        setSearch({
-          search: "",
-          isSearching: false,
-        });
-      },
     }
   );
-  const onSearch = () => {
-    setSearch({
-      ...search,
-      isSearching: true,
-    });
-  };
 
   const onClickUser = (user) => {
     console.log("User: ", user._id, user.name, "clicado!");
@@ -51,21 +44,7 @@ export const Search = () => {
             name="search"
             placeholder="Pesquisar"
             customStyles={"w-full"}
-            onChange={(e) => {
-              setSearch({
-                ...search,
-                text: e.target.value,
-              });
-            }}
-          />
-          <Button
-            label="Pesquisar"
-            customStyles={
-              "w-fit p-2 bg-light-primary text-white dark:text-light-background hover:brightness-75 dark:hover:brightness-75"
-            }
-            onClick={() => {
-              onSearch();
-            }}
+            onChange={(e) => setSearchText(e.target.value)}
           />
         </div>
         <div className="flex w-3/4 flex-col gap-5">
