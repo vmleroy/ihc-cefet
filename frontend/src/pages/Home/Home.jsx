@@ -48,7 +48,7 @@ export const Home = () => {
         data.forEach((post) => {
           if (status) {
             if (!localPosts.some((p) => p._id === post._id)) {
-              localPosts.push(post);
+              setLocalPosts((prev) => [...prev, post]);
             }
             setStatus("fetched");
           }
