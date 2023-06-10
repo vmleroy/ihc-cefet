@@ -1,13 +1,32 @@
 import database from "../database.js";
-import { v4 as uuidv4 } from "uuid";
 import userService from "../User/userService.js";
 const postCollection = database.collection("post");
 
 const postService = {};
 
-postService.show = async (id) => {
+postService.show = async (
+  id,
+  options = {
+    user: true,
+  }
+) => {
   try {
-    return await postCollection.findOne({ _id: id });
+    const { user } = options;
+    const postData = await postCollection.findOne({ _id: id });
+    if (!user) return postData;
+    const userIds = [
+      postData.userId,
+      ...postData.comments.map((comments) => comments.userId),
+    ];
+    const users = await userService.index({
+      _id: { $in: userIds },
+    });
+    postData.user = users.find((user) => user._id === postData.userId);
+    postData.comments = postData.comments.map((comment) => {
+      comment.user = users.find((user) => user._id === comment.userId);
+      return comment;
+    });
+    return postData;
   } catch (error) {
     console.log("Error in postService.show: ", error);
   }
@@ -53,9 +72,7 @@ postService.index = async (
     const posts = postData.map((post) => {
       post.user = users.find((user) => user._id === post.userId);
       post.comments = post.comments.map((comment) => {
-        comment.user = users.find(
-          (user) => user._id === comment.userId
-        );
+        comment.user = users.find((user) => user._id === comment.userId);
         return comment;
       });
       return post;
@@ -67,14 +84,14 @@ postService.index = async (
 };
 postService.create = async (data) => {
   try {
-    const { userId, text = "", imageSrc = "" } = data;
-    if (!userId) throw new Error("Missing userId");
+    const { _id, userId, text = "", imageSrc = "" } = data;
+    if (!_id || !userId) throw new Error("Missing _id or userId");
 
     const user = await userService.show(userId);
     if (!user) throw new Error("User not found");
 
     const post = {
-      _id: uuidv4(),
+      _id,
       userId,
       text,
       imageSrc,
@@ -102,10 +119,7 @@ postService.update = async (id, data) => {
       updatedAt: Date.now(),
     };
 
-    return await postCollection.updateOne(
-      { _id: id },
-      { $set: post }
-    );
+    return await postCollection.updateOne({ _id: id }, { $set: post });
   } catch (error) {
     console.log("Error in postService.update: ", error);
   }

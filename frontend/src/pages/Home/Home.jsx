@@ -46,7 +46,7 @@ export const Home = () => {
           setStatus("done");
         }
         data.forEach((post) => {
-          if (status) {
+          if (status === "initial" || status === "fetching") {
             if (!localPosts.some((p) => p._id === post._id)) {
               setLocalPosts((prev) => [...prev, post]);
             }
@@ -65,7 +65,7 @@ export const Home = () => {
             <FriendList friends={friends} />
           </div>
           <div id="create-post" className="flex w-full">
-            <CreatePost icon={<Icon.Image size={24} />} size={"w-full"} />
+            <CreatePost icon={<Icon.Image size={24} />} size={"w-full"} setLocalPosts={setLocalPosts} />
           </div>
           <div
             id="posts"

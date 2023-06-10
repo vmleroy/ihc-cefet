@@ -1,11 +1,15 @@
 import { useQuery, useMutation, useInfiniteQuery } from "react-query";
 import qs from "qs";
 
-const usePost = (id) => {
-  return useQuery(["post", id], async () => {
-    const response = await fetch(`http://localhost:1999/api/post/${id}`);
-    return response.json();
-  });
+const usePost = (id, options) => {
+  return useQuery(
+    ["post", id],
+    async () => {
+      const response = await fetch(`http://localhost:1999/api/post/${id}`);
+      return response.json();
+    },
+    options
+  );
 };
 
 const usePosts = (filters, options) => {

@@ -4,7 +4,7 @@ import * as Icon from "react-feather";
 import { IconButton } from "../IconButton";
 import { CommentTextArea } from "../CommentTextArea";
 import { Button } from "../Button";
-import { useUpdatePost } from "../../api/post";
+import { usePost, useUpdatePost } from "../../api/post";
 
 import { useQueryClient } from "react-query";
 
@@ -16,6 +16,23 @@ export const Post = ({ post, setLocalPosts }) => {
 
   const [commentText, setCommentText] = React.useState("");
 
+  const [shouldRefetchPost, setShouldRefetchPost] = React.useState(false);
+  usePost(post._id, {
+    enabled: shouldRefetchPost,
+    onSuccess: (data) => {
+      console.log(data);
+      setLocalPosts((prev) =>
+        prev.map((p) => {
+          if (p._id === data._id) {
+            return data;
+          }
+          return p;
+        })
+      );
+      setShouldRefetchPost(false);
+      queryClient.invalidateQueries("posts");
+    },
+  });
   const isPostLiked = post.likes.includes(localUser._id);
   const onClickLikePost = () => {
     const newLikes = isPostLiked
@@ -28,17 +45,7 @@ export const Post = ({ post, setLocalPosts }) => {
       },
       {
         onSuccess: () => {
-          setLocalPosts((prev) =>
-            prev.map((p) => {
-              if (p._id === post._id) {
-                return {
-                  ...p,
-                  likes: newLikes,
-                };
-              }
-              return p;
-            })
-          );
+          setShouldRefetchPost(true);
           queryClient.invalidateQueries("posts");
         },
       }
@@ -58,25 +65,7 @@ export const Post = ({ post, setLocalPosts }) => {
       },
       {
         onSuccess: () => {
-          setLocalPosts((prev) =>
-            prev.map((p) => {
-              if (p._id === post._id) {
-                return {
-                  ...p,
-                  comments: [
-                    ...p.comments,
-                    {
-                      userId: localUser._id,
-                      text: commentText,
-                      likes: [],
-                      user: localUser,
-                    },
-                  ],
-                };
-              }
-              return p;
-            })
-          );
+          setShouldRefetchPost(true);
           queryClient.invalidateQueries("posts");
         },
       }
@@ -101,17 +90,7 @@ export const Post = ({ post, setLocalPosts }) => {
       },
       {
         onSuccess: () => {
-          setLocalPosts((prev) =>
-            prev.map((p) => {
-              if (p._id === post._id) {
-                return {
-                  ...p,
-                  comments: newComments,
-                };
-              }
-              return p;
-            })
-          );
+          setShouldRefetchPost(true);
           queryClient.invalidateQueries("posts");
         },
       }

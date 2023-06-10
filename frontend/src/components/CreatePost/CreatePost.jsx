@@ -1,17 +1,20 @@
 import React from "react";
+import { v4 as uuidv4 } from "uuid";
 
 import { Button } from "../../components/Button";
 import { IconButton } from "../../components/IconButton";
 
-import { useCreatePost } from "../../api/post.js";
+import { useCreatePost, usePost } from "../../api/post.js";
 
 import { useQueryClient } from "react-query";
 
-export const CreatePost = ({ icon, size }) => {
+export const CreatePost = ({ icon, size, setLocalPosts }) => {
   const { mutate: createPost } = useCreatePost();
   const queryClient = useQueryClient();
   const localUser = JSON.parse(localStorage.getItem("user"));
+  const [createdPostId, setCreatedPostId] = React.useState(null);
   const [data, setData] = React.useState({
+    _id: uuidv4(),
     text: "",
     imageSrc: "",
   });
@@ -25,11 +28,23 @@ export const CreatePost = ({ icon, size }) => {
     setData((prev) => ({ ...prev, text: e.target.value }));
   };
 
+  usePost(createdPostId, {
+    enabled: Boolean(createdPostId),
+    onSuccess: (data) => {
+      setLocalPosts((prev) => [data, ...prev]);
+      setCreatedPostId(null);
+      queryClient.invalidateQueries("posts");
+    },
+  });
   const onClickPost = () => {
     createPost(data, {
       onSuccess: () => {
-        console.log("Postado!");
-        queryClient.invalidateQueries("posts");
+        setCreatedPostId(data._id);
+        setData({
+          _id: uuidv4(),
+          text: "",
+          imageSrc: "",
+        });
       },
     });
   };

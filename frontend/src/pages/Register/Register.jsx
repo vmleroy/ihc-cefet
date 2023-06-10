@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
 
 import * as Icon from "react-feather";
 import avatar from "../../assets/images/avatar.png";
@@ -41,12 +42,18 @@ export const Register = () => {
   };
 
   const handleRegisterButtonClick = () => {
-    createUser(user, {
-      onSuccess: () => {
-        console.log("Usuario cadastrado com sucesso!");
-        navigate(InsideLinks.login);
+    createUser(
+      {
+        ...data,
+        _id: uuidv4(),
       },
-    });
+      {
+        onSuccess: () => {
+          console.log("Usuario cadastrado com sucesso!");
+          navigate(InsideLinks.login);
+        },
+      }
+    );
   };
 
   const handleVoltarButtonClick = () => {

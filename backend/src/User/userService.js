@@ -1,5 +1,4 @@
 import database from "../database.js";
-import { v4 as uuidv4 } from "uuid";
 const userCollection = database.collection("user");
 
 const userService = {};
@@ -20,12 +19,12 @@ userService.index = async (filters) => {
 };
 userService.create = async (data) => {
   try {
-    const { email, password, name } = data;
-    if (!email || !password || !name)
+    const { _id, email, password, name } = data;
+    if (!_id || !email || !password || !name)
       throw new Error("Missing required fields");
 
     const user = {
-      _id: uuidv4(),
+      _id,
       email,
       password,
       name,

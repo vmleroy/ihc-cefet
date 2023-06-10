@@ -5,7 +5,10 @@ import { Button } from "../../components/Button";
 
 import { useUsers } from "../../api/user";
 
+import { useQueryClient } from "react-query";
+
 export const Search = () => {
+  const queryClient = useQueryClient();
   const [search, setSearch] = React.useState({
     text: "",
     isSearching: false,
@@ -21,8 +24,7 @@ export const Search = () => {
     {
       enabled: search.isSearching,
       initialData: [],
-      onSuccess: (data) => {
-        console.log(data);
+      onSuccess: () => {
         setSearch({
           ...search,
           isSearching: false,
@@ -35,12 +37,15 @@ export const Search = () => {
       ...search,
       isSearching: true,
     });
-    console.log("Pesquisado!");
   };
 
   const onClickUser = (user) => {
     console.log("User: ", user._id, user.name, "clicado!");
   };
+
+  useEffect(() => {
+    return () => queryClient.invalidateQueries("users");
+  }, []);
 
   return (
     <div className="h-full w-full overflow-auto p-5">
