@@ -1,12 +1,12 @@
-import { ObjectId } from "mongodb";
 import database from "../database.js";
+import { v4 as uuidv4 } from "uuid";
 const userCollection = database.collection("user");
 
 const userService = {};
 
 userService.show = async (id) => {
   try {
-    return await userCollection.findOne({ _id: new ObjectId(id) });
+    return await userCollection.findOne({ _id: id });
   } catch (error) {
     console.log("Error in userService.show: ", error);
   }
@@ -25,6 +25,7 @@ userService.create = async (data) => {
       throw new Error("Missing required fields");
 
     const user = {
+      _id: uuidv4(),
       email,
       password,
       name,
@@ -65,10 +66,7 @@ userService.update = async (id, data) => {
       updatedAt: Date.now(),
     };
 
-    return await userCollection.updateOne(
-      { _id: new ObjectId(id) },
-      { $set: user }
-    );
+    return await userCollection.updateOne({ _id: id }, { $set: user });
   } catch (error) {
     console.log("Error in userService.update: ", error);
   }
@@ -76,7 +74,7 @@ userService.update = async (id, data) => {
 userService.delete = async (id) => {
   try {
     if (!id) throw new Error("Missing id");
-    return await userCollection.deleteOne({ _id: new ObjectId(id) });
+    return await userCollection.deleteOne({ _id: id });
   } catch (error) {
     console.log("Error in userService.delete: ", error);
   }

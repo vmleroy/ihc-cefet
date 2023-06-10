@@ -1,12 +1,16 @@
 import express from "express";
 import postService from "./postService.js";
+import decoder from "../decoder.js";
 
 const router = express.Router();
 
+router.use(decoder.parsePost);
+
 router.get("/", async (req, res) => {
   try {
-    const filters = req.query;
-    const result = await postService.index(filters);
+    const query = req.query;
+    const { options, ...filters } = query;
+    const result = await postService.index(filters, options);
     res.status(200).json(result);
   } catch (error) {
     console.log("Error in postRoutes.get: ", error);

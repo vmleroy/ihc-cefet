@@ -3,9 +3,18 @@ import React from "react";
 import { Button } from "../../components/Button";
 import { IconButton } from "../../components/IconButton";
 
+import { useCreatePost } from "../../api/post.js";
+
+import { useQueryClient } from "react-query";
+
 export const CreatePost = ({ icon, size }) => {
+  const { mutate: createPost } = useCreatePost();
+  const queryClient = useQueryClient();
   const localUser = JSON.parse(localStorage.getItem("user"));
-  const [value, setValue] = React.useState("");
+  const [data, setData] = React.useState({
+    text: "",
+    imageSrc: "",
+  });
 
   let textAreaHeight = "h-12";
 
@@ -13,11 +22,16 @@ export const CreatePost = ({ icon, size }) => {
     e.target.style.height = "inherit";
     e.target.style.height = `${e.target.scrollHeight}px`;
     textAreaHeight = `h-[${e.target.scrollHeight}px]`;
-    setValue(e.target.value);
+    setData((prev) => ({ ...prev, text: e.target.value }));
   };
 
   const onClickPost = () => {
-    console.log("Postado!");
+    createPost(data, {
+      onSuccess: () => {
+        console.log("Postado!");
+        queryClient.invalidateQueries("posts");
+      },
+    });
   };
 
   return (
@@ -27,7 +41,7 @@ export const CreatePost = ({ icon, size }) => {
       >
         <textarea
           id={`textarea-${localUser.name}`}
-          value={value}
+          value={data.text}
           placeholder="O que você está pensando..."
           className="peer w-full resize-none rounded-lg bg-light-inputFill bg-transparent px-4 text-light-secondary placeholder-input-text outline-none"
           onInput={(e) => onInputTextArea(e)}

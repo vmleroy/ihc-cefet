@@ -1,4 +1,5 @@
-import { useQuery } from "react-query";
+import { useQuery, useMutation, useInfiniteQuery } from "react-query";
+import qs from "qs";
 
 const usePost = (id) => {
   return useQuery(["post", id], async () => {
@@ -7,26 +8,29 @@ const usePost = (id) => {
   });
 };
 
-const usePosts = (filters) => {
-  const stringifiedFilters = new URLSearchParams(
-    JSON.parse(JSON.stringify(filters))
-  ).toString();
-  return useQuery("posts", async () => {
-    const response = await fetch(
-      `http://localhost:1999/api/post?${stringifiedFilters}`
-    );
-    return response.json();
-  });
+const usePosts = (filters, options) => {
+  const stringifiedFilters = qs.stringify(filters);
+  return useQuery(
+    "posts",
+    async () => {
+      const response = await fetch(
+        `http://localhost:1999/api/post?${stringifiedFilters}`
+      );
+      return response.json();
+    },
+    options
+  );
 };
 
 const useCreatePost = () => {
+  const { _id: userId } = JSON.parse(localStorage.getItem("user"));
   return useMutation(async (data) => {
     const response = await fetch("http://localhost:1999/api/post", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify({ ...data, userId }),
     });
 
     return response.json();

@@ -7,6 +7,7 @@ export const IconButton = ({
   haveTooltip = true,
   colorOnHover = "hover:text-dark-background hover:dark:text-light-background",
   onClickFunction,
+  disabled = false,
   customButtonStyles = "",
   customTootlipStyles = "",
   ...props
@@ -14,7 +15,7 @@ export const IconButton = ({
   return (
     <div
       className={`group z-50 ${styles.icon} ${colorOnHover} ${customButtonStyles}`}
-      onClick={onClickFunction}
+      onClick={disabled ? null : onClickFunction}
     >
       {icon}
       {haveTooltip && (

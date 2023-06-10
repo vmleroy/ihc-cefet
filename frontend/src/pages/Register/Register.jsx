@@ -14,7 +14,6 @@ import { useCreateUser } from "../../api/user";
 
 export const Register = () => {
   const { mutate: createUser } = useCreateUser();
-  console.log(createUser);
   const navigate = useNavigate();
 
   const [user, setUser] = React.useState({
