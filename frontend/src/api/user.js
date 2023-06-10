@@ -11,7 +11,7 @@ const useUser = (id) => {
 const useUsers = (filters, options) => {
   const stringifiedFilters = qs.stringify(filters);
   return useQuery(
-    "users",
+    ["users", stringifiedFilters],
     async () => {
       const response = await fetch(
         `http://localhost:1999/api/user?${stringifiedFilters}`

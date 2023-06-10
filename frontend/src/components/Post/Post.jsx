@@ -20,7 +20,6 @@ export const Post = ({ post, setLocalPosts }) => {
   usePost(post._id, {
     enabled: shouldRefetchPost,
     onSuccess: (data) => {
-      console.log(data);
       setLocalPosts((prev) =>
         prev.map((p) => {
           if (p._id === data._id) {
@@ -38,7 +37,6 @@ export const Post = ({ post, setLocalPosts }) => {
     const newLikes = isPostLiked
       ? post.likes.filter((userId) => userId !== localUser._id)
       : [...post.likes, localUser._id];
-    console.log(newLikes);
     updatePost(
       {
         likes: newLikes,
@@ -65,6 +63,7 @@ export const Post = ({ post, setLocalPosts }) => {
       },
       {
         onSuccess: () => {
+          setCommentText("");
           setShouldRefetchPost(true);
           queryClient.invalidateQueries("posts");
         },
