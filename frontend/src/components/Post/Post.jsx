@@ -4,21 +4,96 @@ import * as Icon from "react-feather";
 import { IconButton } from "../IconButton";
 import { CommentTextArea } from "../CommentTextArea";
 import { Button } from "../Button";
+import { usePost, useUpdatePost } from "../../api/post";
 
-export const Post = ({ post }) => {
+import { useQueryClient } from "react-query";
+
+export const Post = ({ post, setLocalPosts }) => {
+  const { mutate: updatePost } = useUpdatePost(post._id);
+  const queryClient = useQueryClient();
   const localUser = JSON.parse(localStorage.getItem("user"));
-  const date = new Date(post.timestamp).toLocaleString();
-  const alreadyLiked = post.likes.some(
-    (like) => like.user.__id === localUser.__id
-  );
+  const date = new Date(post.createdAt).toLocaleString();
 
-  const [newComment, setNewComment] = React.useState("");
+  const [commentText, setCommentText] = React.useState("");
 
-  const onClickLike = (object) => {
-    console.log("Liked!", object);
+  const [shouldRefetchPost, setShouldRefetchPost] = React.useState(false);
+  usePost(post._id, {
+    enabled: shouldRefetchPost,
+    onSuccess: (data) => {
+      setLocalPosts((prev) =>
+        prev.map((p) => {
+          if (p._id === data._id) {
+            return data;
+          }
+          return p;
+        })
+      );
+      setShouldRefetchPost(false);
+      queryClient.invalidateQueries("posts");
+    },
+  });
+  const isPostLiked = post.likes.includes(localUser._id);
+  const onClickLikePost = () => {
+    const newLikes = isPostLiked
+      ? post.likes.filter((userId) => userId !== localUser._id)
+      : [...post.likes, localUser._id];
+    updatePost(
+      {
+        likes: newLikes,
+      },
+      {
+        onSuccess: () => {
+          setShouldRefetchPost(true);
+          queryClient.invalidateQueries("posts");
+        },
+      }
+    );
   };
   const onClickComment = () => {
-    console.log("Commented!", newComment);
+    updatePost(
+      {
+        comments: [
+          ...post.comments,
+          {
+            userId: localUser._id,
+            text: commentText,
+            likes: [],
+          },
+        ],
+      },
+      {
+        onSuccess: () => {
+          setCommentText("");
+          setShouldRefetchPost(true);
+          queryClient.invalidateQueries("posts");
+        },
+      }
+    );
+  };
+  const onClickLikeComment = (isCommentLiked, index) => {
+    const newComments = post.comments.map((comment, localIndex) => {
+      if (localIndex === index) {
+        const newCommentLikes = isCommentLiked
+          ? comment.likes.filter((userId) => userId !== localUser._id)
+          : [...comment.likes, localUser._id];
+        return {
+          ...comment,
+          likes: newCommentLikes,
+        };
+      }
+      return comment;
+    });
+    updatePost(
+      {
+        comments: newComments,
+      },
+      {
+        onSuccess: () => {
+          setShouldRefetchPost(true);
+          queryClient.invalidateQueries("posts");
+        },
+      }
+    );
   };
 
   return (
@@ -46,13 +121,19 @@ export const Post = ({ post }) => {
               icon={<Icon.Heart size={18} />}
               haveTooltip={false}
               colorOnHover={"hover:text-red-700"}
-              customButtonStyles={alreadyLiked ? "text-red-700" : ""}
-              onClickFunction={() => onClickLike(post)}
+              customButtonStyles={isPostLiked ? "text-red-700" : ""}
+              onClickFunction={() => onClickLikePost()}
             />
             <p>{post.likes.length}</p>
           </div>
         </div>
-        {post.imageSrc && <img src={post.imageSrc} alt="post" className="w-1/4 p-4 object-contain" />}
+        {post.imageSrc && (
+          <img
+            src={post.imageSrc}
+            alt="post"
+            className="w-1/4 object-contain p-4"
+          />
+        )}
       </div>
       <div
         id="comment"
@@ -60,8 +141,8 @@ export const Post = ({ post }) => {
       >
         <CommentTextArea
           writable={true}
-          value={newComment}
-          setValue={setNewComment}
+          value={commentText}
+          setValue={setCommentText}
         />
         <Button
           label="Comentar"
@@ -69,45 +150,52 @@ export const Post = ({ post }) => {
           onClick={onClickComment}
         />
       </div>
-      <div id="users-comment" className="mt-4 flex h-fit w-full">
-        {post.comments.map((comment) => (
-          <div
-            key={`comment-${comment.index}`}
-            className="flex h-fit w-full flex-col items-center pl-4 pt-2"
-          >
+      <div id="users-comment" className="mt-4 flex h-fit w-full flex-col">
+        {post.comments.map((comment, index) => {
+          const isCommentLiked = comment.likes.some(
+            (userId) => userId === localUser._id
+          );
+          return (
             <div
-              id={`user-${comment.index}`}
-              className="flex h-fit w-full flex-row items-center gap-2"
+              key={`comment-${index}`}
+              className="flex h-fit w-full flex-col items-center pl-4 pt-2"
             >
-              <img
-                src={post.user.profilePictureSrc}
-                alt="profile picture"
-                className="h-8 w-8 border-2 border-black object-contain"
-              />
-              <div className="flex w-full flex-col">
-                <h1>{post.user.name}</h1>
-                <h2>{date}</h2>
-              </div>
-            </div>
-            <div
-              id={`comment-${comment.index}`}
-              className="flex h-fit w-full flex-row gap-2"
-            >
-              <CommentTextArea writable={false} value={post.text} />
-              <div className="flex flex-row items-center gap-2">
-                <IconButton
-                  id={`like-${comment.index}`}
-                  icon={<Icon.Heart size={18} />}
-                  haveTooltip={false}
-                  colorOnHover={"hover:text-red-700"}
-                  customButtonStyles={alreadyLiked ? "text-red-700" : ""}
-                  onClickFunction={() => onClickLike(comment)}
+              <div
+                id={`user-${index}`}
+                className="flex h-fit w-full flex-row items-center gap-2"
+              >
+                <img
+                  src={comment.user.profilePictureSrc}
+                  alt="profile picture"
+                  className="h-8 w-8 border-2 border-black object-contain"
                 />
-                <p>{comment.likes.length}</p>
+                <div className="flex w-full flex-col">
+                  <h1>{comment.user.name}</h1>
+                  <h2>{date}</h2>
+                </div>
+              </div>
+              <div
+                id={`comment-${index}`}
+                className="flex h-fit w-full flex-row gap-2"
+              >
+                <CommentTextArea writable={false} value={comment.text} />
+                <div className="flex flex-row items-center gap-2">
+                  <IconButton
+                    id={`like-${index}`}
+                    icon={<Icon.Heart size={18} />}
+                    haveTooltip={false}
+                    colorOnHover={"hover:text-red-700"}
+                    customButtonStyles={isCommentLiked ? "text-red-700" : ""}
+                    onClickFunction={() =>
+                      onClickLikeComment(isCommentLiked, index)
+                    }
+                  />
+                  <p>{comment.likes.length}</p>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

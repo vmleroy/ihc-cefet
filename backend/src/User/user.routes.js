@@ -1,7 +1,10 @@
 import express from "express";
 import userService from "./userService.js";
+import decoder from "../decoder.js";
 
 const router = express.Router();
+
+router.use(decoder.parseUser);
 
 router.get("/", async (req, res) => {
   try {

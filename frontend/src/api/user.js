@@ -1,4 +1,5 @@
 import { useQuery, useMutation } from "react-query";
+import qs from "qs";
 
 const useUser = (id) => {
   return useQuery(["user", id], async () => {
@@ -8,11 +9,9 @@ const useUser = (id) => {
 };
 
 const useUsers = (filters, options) => {
-  const stringifiedFilters = new URLSearchParams(
-    JSON.parse(JSON.stringify(filters))
-  ).toString();
+  const stringifiedFilters = qs.stringify(filters);
   return useQuery(
-    "users",
+    ["users", stringifiedFilters],
     async () => {
       const response = await fetch(
         `http://localhost:1999/api/user?${stringifiedFilters}`

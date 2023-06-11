@@ -1,11 +1,23 @@
 import React from "react";
+import { v4 as uuidv4 } from "uuid";
 
 import { Button } from "../../components/Button";
 import { IconButton } from "../../components/IconButton";
 
-export const CreatePost = ({ icon, size }) => {
+import { useCreatePost, usePost } from "../../api/post.js";
+
+import { useQueryClient } from "react-query";
+
+export const CreatePost = ({ icon, size, setLocalPosts }) => {
+  const { mutate: createPost } = useCreatePost();
+  const queryClient = useQueryClient();
   const localUser = JSON.parse(localStorage.getItem("user"));
-  const [value, setValue] = React.useState("");
+  const [createdPostId, setCreatedPostId] = React.useState(null);
+  const [data, setData] = React.useState({
+    _id: uuidv4(),
+    text: "",
+    imageSrc: "",
+  });
 
   let textAreaHeight = "h-12";
 
@@ -13,11 +25,28 @@ export const CreatePost = ({ icon, size }) => {
     e.target.style.height = "inherit";
     e.target.style.height = `${e.target.scrollHeight}px`;
     textAreaHeight = `h-[${e.target.scrollHeight}px]`;
-    setValue(e.target.value);
+    setData((prev) => ({ ...prev, text: e.target.value }));
   };
 
+  usePost(createdPostId, {
+    enabled: Boolean(createdPostId),
+    onSuccess: (data) => {
+      setLocalPosts((prev) => [data, ...prev]);
+      setCreatedPostId(null);
+      queryClient.invalidateQueries("posts");
+    },
+  });
   const onClickPost = () => {
-    console.log("Postado!");
+    createPost(data, {
+      onSuccess: () => {
+        setCreatedPostId(data._id);
+        setData({
+          _id: uuidv4(),
+          text: "",
+          imageSrc: "",
+        });
+      },
+    });
   };
 
   return (
@@ -27,7 +56,7 @@ export const CreatePost = ({ icon, size }) => {
       >
         <textarea
           id={`textarea-${localUser.name}`}
-          value={value}
+          value={data.text}
           placeholder="O que você está pensando..."
           className="peer w-full resize-none rounded-lg bg-light-inputFill bg-transparent py-2 px-3 text-light-secondary placeholder-input-text outline-none"
           onInput={(e) => onInputTextArea(e)}
