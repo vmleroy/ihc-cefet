@@ -11,7 +11,7 @@ import { postMock, friendMock } from "../../utils";
 
 export const Home = () => {
   return (
-    <div className="h-full w-full overflow-auto p-5">
+    <div className="h-full w-full overflow-auto py-10 ">
       <div className="flex justify-center">
         <div className="flex w-3/4 flex-col gap-8">
           <div id="friend-list" className="flex w-full">
