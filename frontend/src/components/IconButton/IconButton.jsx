@@ -8,7 +8,7 @@ export const IconButton = ({
   colorOnHover = "hover:text-dark-background hover:dark:text-light-background",
   onClickFunction,
   customButtonStyles = "",
-  customTootlipStyles = "",
+  customTooltipStyles = "",
   ...props
 }) => {
   return (
@@ -19,7 +19,7 @@ export const IconButton = ({
       {icon}
       {haveTooltip && (
         <span
-          className={`pointer-events-none group-hover:scale-100 ${styles.tooltip} ${customTootlipStyles}`}
+          className={`pointer-events-none group-hover:scale-100 ${styles.tooltip} ${customTooltipStyles}`}
         >
           {tooltip}
         </span>

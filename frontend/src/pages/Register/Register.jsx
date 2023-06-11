@@ -132,7 +132,7 @@ export const Register = () => {
             tooltip="Light Mode"
             onClickFunction={handleDarkMode}
             customButtonStyles="text-dark-background"
-            customTootlipStyles="left-16"
+            customTooltipStyles="left-16"
           />
         ) : (
           <IconButton
@@ -140,7 +140,7 @@ export const Register = () => {
             tooltip="Dark Mode"
             onClickFunction={handleDarkMode}
             customButtonStyles="text-light-background"
-            customTootlipStyles="left-16"
+            customTooltipStyles="left-16"
           />
         )}
       </div>
