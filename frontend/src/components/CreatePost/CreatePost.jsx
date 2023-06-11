@@ -29,7 +29,7 @@ export const CreatePost = ({ icon, size }) => {
           id={`textarea-${localUser.name}`}
           value={value}
           placeholder="O que você está pensando..."
-          className="peer w-full resize-none rounded-lg bg-light-inputFill bg-transparent px-4 text-light-secondary placeholder-input-text outline-none"
+          className="peer w-full resize-none rounded-lg bg-light-inputFill bg-transparent py-2 px-3 text-light-secondary placeholder-input-text outline-none"
           onInput={(e) => onInputTextArea(e)}
         />
       </div>
@@ -49,7 +49,7 @@ export const CreatePost = ({ icon, size }) => {
         <div className="w-full" />
         <div className="right-0 flex w-fit flex-row rounded-b-xl bg-light-inputFill dark:bg-dark-inputFill">
           <Button
-            label="POSTAR"
+            label="Publicar"
             customStyles="w-fit p-2 rounded-t-none bg-light-primary text-white dark:text-light-background hover:brightness-75 dark:hover:brightness-75"
             onClick={onClickPost}
           />
