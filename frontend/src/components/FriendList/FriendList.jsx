@@ -1,12 +1,16 @@
 import React from "react";
 import * as Icon from "react-feather";
 import { IconButton } from "../IconButton";
+import { InsideLinks } from "../../utils/redirectionLinks";
 
 import { FriendComponent } from "./FriendComponent.jsx";
 
+import { useNavigate } from "react-router-dom";
+
 export const FriendList = ({ friends }) => {
+  const navigate = useNavigate();
+
   const numberOfFriendsShown = 10;
-  
   const [startPositionInArray, setStartPositionInArray] = React.useState(0);
 
   const onClickLeftArrow = () => {
@@ -14,7 +18,7 @@ export const FriendList = ({ friends }) => {
       return null;
     }
     if (startPositionInArray > 0) {
-      setStartPositionInArray(startPositionInArray - numberOfFriendsShown)
+      setStartPositionInArray(startPositionInArray - numberOfFriendsShown);
     }
   };
   const onClickRightArrow = () => {
@@ -22,16 +26,16 @@ export const FriendList = ({ friends }) => {
       return null;
     }
     if (startPositionInArray < friends.length) {
-      setStartPositionInArray(startPositionInArray + numberOfFriendsShown)
+      setStartPositionInArray(startPositionInArray + numberOfFriendsShown);
     }
   };
 
   const onClickFriend = (friend) => {
-    console.log(friend);
+    navigate(`${InsideLinks.userProfile}/${friend._id}`);
   };
 
   return (
-    <div className="w-full flex flex-col items-center gap-2">
+    <div className="flex w-full flex-col items-center gap-2">
       <p className="w-fit font-bold"> Amigos </p>
       <div className="flex w-full flex-row">
         <IconButton
@@ -40,7 +44,12 @@ export const FriendList = ({ friends }) => {
           onClickFunction={onClickLeftArrow}
         />
         <div className="flex w-fit flex-row gap-5">
-          <FriendComponent friends={friends} start={startPositionInArray} end={startPositionInArray + numberOfFriendsShown} onClick={onClickFriend}/>
+          <FriendComponent
+            friends={friends}
+            start={startPositionInArray}
+            end={startPositionInArray + numberOfFriendsShown}
+            onClick={onClickFriend}
+          />
         </div>
         <IconButton
           icon={<Icon.ArrowRight size={18} />}

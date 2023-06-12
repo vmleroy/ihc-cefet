@@ -10,8 +10,7 @@ import { Register } from "../pages/Register";
 import { LayoutLogged } from "../pages/Layout";
 import { Home } from "../pages/Home";
 import { Search } from "../pages/Search";
-import { MyProfile } from "../pages/MyProfile";
-import { OtherUserProfile } from "../pages/OtherUserProfile";
+import { Profile } from "../pages/Profile";
 
 const Root = () => {
   return (
@@ -25,8 +24,7 @@ const Root = () => {
       <Route element={<LayoutLogged />}>
         <Route path="home" element={<Home />} />
         <Route path="search" element={<Search />} />
-        <Route path="user" element={<MyProfile />} />
-        <Route path="other-user" element={<OtherUserProfile />} />
+        <Route path="user/:userId" element={<Profile />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

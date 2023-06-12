@@ -74,7 +74,7 @@ export const Post = ({ post, setLocalPosts }) => {
     const newComments = post.comments.map((comment, localIndex) => {
       if (localIndex === index) {
         const newCommentLikes = isCommentLiked
-          ? comment.likes.filter((userId) => userId !== localUser._id)
+          ? comment.likes.filter((userId) => userId !== me._id)
           : [...comment.likes, localUser._id];
         return {
           ...comment,

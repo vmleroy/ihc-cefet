@@ -16,10 +16,15 @@ const config = {
   output: {
     path: path.resolve(__dirname, "dist"),
   },
+  output: {
+    path: path.resolve(__dirname, "dist"),
+    filename: "bundle.js",
+    publicPath: "/",
+  },
   devServer: {
     open: true,
     host: "localhost",
-    historyApiFallback: true
+    historyApiFallback: true,
   },
   plugins: [
     new HtmlWebpackPlugin({

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import useDarkMode from "../../hooks/useDarkMode";
 
-import { InsideLinks } from "../../utils";
+import { InsideLinks } from "../../utils/redirectionLinks";
 
 import * as Icon from "react-feather";
 import { IconButton } from "../IconButton";
@@ -12,6 +12,7 @@ import { HorizontalDivider as Divider } from "../Divider";
 export const SideBar = () => {
   const navigate = useNavigate();
 
+  const localUser = JSON.parse(localStorage.getItem("user"));
   const [darkMode, setDarkMode] = useDarkMode();
   const handleDarkMode = () => {
     setDarkMode(!darkMode);
@@ -28,15 +29,19 @@ export const SideBar = () => {
   };
 
   return (
-    <div className="left-0 top-0 flex h-screen w-16 flex-col gap-3 border-r-2 border-zinc-500 border-opacity-20 p-3 bg-light-background dark:bg-dark-background">
+    <div className="left-0 top-0 flex h-screen w-16 flex-col gap-3 border-r-2 border-zinc-500 border-opacity-20 bg-light-background p-3 dark:bg-dark-background">
       <div className="flex flex-col items-center">
         <IconButton
           icon={<Icon.User size={24} />}
           tooltip="Profile"
-          onClickFunction={() => handleButtonClickNavigation(InsideLinks.userProfile)}
+          onClickFunction={() =>
+            handleButtonClickNavigation(
+              `${InsideLinks.userProfile}/${localUser._id}`
+            )
+          }
         />
-      </div>        
-      <Divider customStyles="w-full"/>
+      </div>
+      <Divider customStyles="w-full" />
       <div className="flex flex-col items-center gap-2">
         <IconButton
           icon={<Icon.Home size={24} />}
@@ -46,7 +51,9 @@ export const SideBar = () => {
         <IconButton
           icon={<Icon.Search size={24} />}
           tooltip="Search"
-          onClickFunction={() => handleButtonClickNavigation(InsideLinks.search)}
+          onClickFunction={() =>
+            handleButtonClickNavigation(InsideLinks.search)
+          }
         />
         <IconButton
           icon={<Icon.LogOut size={24} />}
@@ -54,7 +61,7 @@ export const SideBar = () => {
           onClickFunction={() => handleButtonClickNavigation(InsideLinks.login)}
         />
       </div>
-      <Divider customStyles="w-full"/>
+      <Divider customStyles="w-full" />
       <div className="flex flex-col items-center">
         {darkMode ? (
           <IconButton

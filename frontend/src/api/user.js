@@ -1,11 +1,15 @@
 import { useQuery, useMutation } from "react-query";
 import qs from "qs";
 
-const useUser = (id) => {
-  return useQuery(["user", id], async () => {
-    const response = await fetch(`http://localhost:1999/api/user/${id}`);
-    return response.json();
-  });
+const useUser = (id, options) => {
+  return useQuery(
+    ["user", id],
+    async () => {
+      const response = await fetch(`http://localhost:1999/api/user/${id}`);
+      return response.json();
+    },
+    options
+  );
 };
 
 const useUsers = (filters, options) => {
@@ -22,7 +26,7 @@ const useUsers = (filters, options) => {
   );
 };
 
-const useCreateUser = () => {
+const useCreateUser = (options) => {
   return useMutation(async (data) => {
     const response = await fetch("http://localhost:1999/api/user", {
       method: "POST",
@@ -33,10 +37,10 @@ const useCreateUser = () => {
     });
 
     return response.json();
-  });
+  }, options);
 };
 
-const useUpdateUser = (id) => {
+const useUpdateUser = (id, options) => {
   return useMutation(async (data) => {
     const response = await fetch("http://localhost:1999/api/user/" + id, {
       method: "PATCH",
@@ -47,17 +51,23 @@ const useUpdateUser = (id) => {
     });
 
     return response.json();
-  });
+  }, options);
 };
 
-const useDeleteUser = (id) => {
+const useDeleteUser = (id, options) => {
   return useMutation(async () => {
     const response = await fetch("http://localhost:1999/api/user" + id, {
       method: "DELETE",
     });
 
     return response.json();
-  });
+  }, options);
 };
 
-export { useUser, useUsers, useCreateUser, useUpdateUser, useDeleteUser };
+export {
+  useUser,
+  useUsers,
+  useCreateUser,
+  useUpdateUser,
+  useDeleteUser,
+};

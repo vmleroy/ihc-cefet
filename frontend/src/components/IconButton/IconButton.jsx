@@ -14,7 +14,7 @@ export const IconButton = ({
 }) => {
   return (
     <div
-      className={`group z-50 ${styles.icon} ${colorOnHover} ${customButtonStyles}`}
+      className={`group z-10 ${styles.icon} ${colorOnHover} ${customButtonStyles}`}
       onClick={disabled ? null : onClickFunction}
     >
       {icon}

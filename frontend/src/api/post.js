@@ -26,8 +26,8 @@ const usePosts = (filters, options) => {
   );
 };
 
-const useCreatePost = () => {
-  const { _id: userId } = JSON.parse(localStorage.getItem("user"));
+const useCreatePost = (options) => {
+  const { _id: userId } = JSON.parse(localStorage.getItem("me"));
   return useMutation(async (data) => {
     const response = await fetch("http://localhost:1999/api/post", {
       method: "POST",
@@ -38,10 +38,10 @@ const useCreatePost = () => {
     });
 
     return response.json();
-  });
+  }, options);
 };
 
-const useUpdatePost = (id) => {
+const useUpdatePost = (id, options) => {
   return useMutation(async (data) => {
     const response = await fetch("http://localhost:1999/api/post/" + id, {
       method: "PATCH",
@@ -52,17 +52,17 @@ const useUpdatePost = (id) => {
     });
 
     return response.json();
-  });
+  }, options);
 };
 
-const useDeletePost = (id) => {
+const useDeletePost = (id, options) => {
   return useMutation(async () => {
     const response = await fetch("http://localhost:1999/api/post" + id, {
       method: "DELETE",
     });
 
     return response.json();
-  });
+  }, options);
 };
 
 export { usePost, usePosts, useCreatePost, useUpdatePost, useDeletePost };

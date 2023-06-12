@@ -2,10 +2,15 @@ import React, { useEffect } from "react";
 import * as Icon from "react-feather";
 import { Input } from "../../components/Input";
 import { Button } from "../../components/Button";
+import { InsideLinks } from "../../utils/redirectionLinks";
 
 import { useUsers } from "../../api/user";
 
+import { useNavigate } from "react-router-dom";
+
 export const Search = () => {
+  const navigate = useNavigate();
+
   const [searchText, setSearchText] = React.useState("");
 
   const localUser = JSON.parse(localStorage.getItem("user"));
@@ -30,7 +35,7 @@ export const Search = () => {
   );
 
   const onClickUser = (user) => {
-    console.log("User: ", user._id, user.name, "clicado!");
+    navigate(`${InsideLinks.userProfile}/${localUser._id}`);
   };
 
   return (
