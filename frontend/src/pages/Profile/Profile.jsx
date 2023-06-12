@@ -88,27 +88,26 @@ export const Profile = () => {
           />
           <div className="flex h-20 items-center gap-5">
             <p className="my-auto text-6xl font-bold">{user.name}</p>
-            {isMyProfile && (
+            {isMyProfile ? (
               <IconButton
                 icon={<Icon.Edit size={24} />}
                 haveTooltip={false}
                 onClickFunction={() => setIsModalOpen(true)}
               />
-            )}
-            {/* {!isMyFriend ? (
-              <IconButton
-                icon={<Icon.PlusCircle size={24} />}
-                tooltip="Adicionar Amigo"
-                onClickFunction={() => setIsModalOpen(true)}
-              />
-            ) : (
+            ) : isMyFriend ? (
               <IconButton
                 icon={<Icon.MinusCircle size={24} />}
                 tooltip="Remover Amigo"
                 colorOnHover={"hover:text-red-700"}
-                onClickFunction={() => setIsModalOpen(true)}
+                onClickFunction={() => console.log("remove", userId)}
               />
-            )} */}
+            ) : (
+              <IconButton
+                icon={<Icon.PlusCircle size={24} />}
+                tooltip="Adicionar Amigo"
+                onClickFunction={() => console.log("add", userId)}
+              />
+            )}
           </div>
         </div>
       </div>

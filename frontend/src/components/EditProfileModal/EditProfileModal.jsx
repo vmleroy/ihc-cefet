@@ -3,30 +3,45 @@ import * as Icon from "react-feather";
 import { IconButton } from "../IconButton";
 import { Input } from "../Input";
 import { Button } from "../Button";
-import { useUpdateUser } from "../../api/user";
+import { useUpdateUser, useUser } from "../../api/user";
+import { useParams } from "react-router-dom";
+import { useQueryClient } from "react-query";
 
 export const EditProfileModal = ({ closeModal }) => {
-
-  const localUser = JSON.parse(localStorage.getItem("user"));
-  const { mutate: updateUser } = useUpdateUser(localUser._id, {
-    onSuccess: (data) => {
-      closeModal();
-    },
-  });
+  const queryClient = useQueryClient();
+  const { userId } = useParams();
 
   const [data, setData] = React.useState({
-    profilePictureSrc: localUser.profilePictureSrc,
-    bannerImageSrc: localUser.bannerImageSrc,
-    name: localUser.name,
-    email: localUser.email,
+    profilePictureSrc: "",
+    bannerImageSrc: "",
+    name: "",
+    email: "",
     password: "",
   });
 
+  const { mutate: updateUser } = useUpdateUser(userId, {
+    onSuccess: () => {
+      queryClient.invalidateQueries("user");
+      closeModal();
+    },
+  });
+  const { data: user } = useUser(userId, {
+    onSuccess: (data) => {
+      setData({
+        profilePictureSrc: data.profilePictureSrc,
+        bannerImageSrc: data.bannerImageSrc,
+        name: data.name,
+        email: data.email,
+        password: "",
+      });
+    },
+  });
+
   const isButtonDisabled =
-    data.profilePictureSrc === localUser.profilePictureSrc &&
-    data.bannerImageSrc === localUser.bannerImageSrc &&
-    data.name === localUser.name &&
-    data.email === localUser.email &&
+    data.profilePictureSrc === user.profilePictureSrc &&
+    data.bannerImageSrc === user.bannerImageSrc &&
+    data.name === user.name &&
+    data.email === user.email &&
     data.password === "";
 
   return (
@@ -38,7 +53,7 @@ export const EditProfileModal = ({ closeModal }) => {
             icon={<Icon.X size={24} />}
             haveTooltip={false}
             onClickFunction={() => closeModal()}
-            customButtonStyles="mx-2"
+            customButtonStyles="mx-0"
           />
         </div>
         <div className="flex flex-col gap-5">
