@@ -46,7 +46,7 @@ export const EditProfileModal = ({ closeModal }) => {
 
   return (
     <div className="fixed left-0 top-0 z-50 flex h-full w-full items-center justify-center">
-      <div className="min-w-[40%] rounded-lg bg-light-background p-4 shadow-2xl dark:bg-dark-background">
+      <div className="min-w-[40%] rounded-lg bg-light-background p-8 shadow-2xl dark:bg-dark-background">
         <div className="flex justify-between pb-6">
           <p className="text-3xl font-bold">Editar Perfil</p>
           <IconButton
