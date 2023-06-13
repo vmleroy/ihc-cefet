@@ -27,7 +27,7 @@ const usePosts = (filters, options) => {
 };
 
 const useCreatePost = (options) => {
-  const { _id: userId } = JSON.parse(localStorage.getItem("me"));
+  const { _id: userId } = JSON.parse(localStorage.getItem("user"));
   return useMutation(async (data) => {
     const response = await fetch("http://localhost:1999/api/post", {
       method: "POST",
