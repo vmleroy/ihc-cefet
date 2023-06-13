@@ -17,22 +17,22 @@ export const Register = () => {
   const { mutate: createUser } = useCreateUser();
   const navigate = useNavigate();
 
-  const [user, setUser] = React.useState({
+  const [data, setData] = React.useState({
     name: "",
     email: "",
     password: "",
   });
 
   const handleNameChange = (event) => {
-    setUser({ ...user, name: event.target.value });
+    setData({ ...data, name: event.target.value });
   };
 
   const handleEmailChange = (event) => {
-    setUser({ ...user, email: event.target.value });
+    setData({ ...data, email: event.target.value });
   };
 
   const handlePasswordChange = (event) => {
-    setUser({ ...user, password: event.target.value });
+    setData({ ...data, password: event.target.value });
   };
 
   const [darkMode, setDarkMode] = useDarkMode();
@@ -87,7 +87,7 @@ export const Register = () => {
               icon={<Icon.User size={22} />}
               type="text"
               placeholder="Nome Completo"
-              value={user.name}
+              value={data.name}
               onChange={(event) => {
                 handleNameChange(event);
               }}
@@ -98,7 +98,7 @@ export const Register = () => {
               icon={<Icon.AtSign size={22} />}
               type="email"
               placeholder="Email"
-              value={user.email}
+              value={data.email}
               onChange={(event) => {
                 handleEmailChange(event);
               }}
@@ -109,7 +109,7 @@ export const Register = () => {
               icon={<Icon.Key size={22} />}
               type="password"
               placeholder="Senha"
-              value={user.password}
+              value={data.password}
               onChange={(event) => {
                 handlePasswordChange(event);
               }}

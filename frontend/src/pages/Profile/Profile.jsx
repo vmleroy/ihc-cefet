@@ -15,12 +15,15 @@ import { useParams } from "react-router-dom";
 import { useUser, useUsers } from "../../api/user";
 import { usePosts } from "../../api/post";
 
+import { useQueryClient } from "react-query";
+
 export const Profile = () => {
+  const queryClient = useQueryClient();
   const [isModalOpen, setIsModalOpen] = React.useState(false);
 
   const { userId } = useParams();
 
-  const { data: user } = useUser(userId, {
+  const { data: user, refetch: refetchUser } = useUser(userId, {
     initialData: {},
   });
   const { data: friends } = useUsers(
@@ -36,7 +39,7 @@ export const Profile = () => {
   const [status, setStatus] = React.useState("initial");
   const currentPage = React.useRef(1);
   const [localPosts, setLocalPosts] = React.useState([]);
-  const { refetch } = usePosts(
+  const { data: posts, refetch: refetchPosts } = usePosts(
     {
       userId: userId,
       options: {
@@ -67,10 +70,23 @@ export const Profile = () => {
   const isMyProfile = localUser._id === userId;
   const isMyFriend = localUser.friends.includes(userId);
 
+  React.useEffect(() => {
+    for (let i = 0; i < currentPage.current; i++) {
+      const cachedPosts = queryClient.getQueryCache().find(["posts", i + 1])
+        .state.data;
+    }
+  }, [posts]);
+
   return (
     <div className="h-full w-full overflow-auto pb-10">
       {isMyProfile && isModalOpen && (
-        <EditProfileModal closeModal={() => setIsModalOpen(false)} />
+        <EditProfileModal
+          refetchData={() => {
+            refetchUser();
+            refetchPosts();
+          }}
+          closeModal={() => setIsModalOpen(false)}
+        />
       )}
       <div id="main-profile" className="pb-14">
         <img
@@ -153,7 +169,7 @@ export const Profile = () => {
                 currentPage.current = currentPage.current + 1;
                 setStatus("fetching");
                 await new Promise((resolve) => setTimeout(resolve, 1000));
-                refetch();
+                refetchPosts();
               }}
             >
               Carregar mais posts
