@@ -76,7 +76,7 @@ userService.update = async (id, data) => {
       }
       newProfilePicture = await imgbbUploader(imgbbOptions).then(async (response) => {
         return response.url
-      }).catch((error) => console.error(error))
+      }).catch((error) => console.error(error))gi
     }
 
     if (data.bannerImageSrc != currentUserData.bannerImageSrc && data.bannerImageSrc != undefined) {
