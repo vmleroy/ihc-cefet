@@ -13,9 +13,12 @@ const usePost = (id, options) => {
 };
 
 const usePosts = (filters, options) => {
+  const {
+    options: { page },
+  } = filters;
   const stringifiedFilters = qs.stringify(filters);
   return useQuery(
-    ["posts", stringifiedFilters],
+    ["posts", ...(page ? [page] : [])],
     async () => {
       const response = await fetch(
         `http://localhost:1999/api/post?${stringifiedFilters}`
