@@ -1,6 +1,6 @@
 import database from "../database.js";
-const userCollection = database.collection("user");
 import imgbbUploader from 'imgbb-uploader';
+const userCollection = database.collection("user");
 
 const userService = {};
 
@@ -76,7 +76,7 @@ userService.update = async (id, data) => {
       }
       newProfilePicture = await imgbbUploader(imgbbOptions).then(async (response) => {
         return response.url
-      }).catch((error) => console.error(error))gi
+      }).catch((error) => console.error(error))
     }
 
     if (data.bannerImageSrc != currentUserData.bannerImageSrc && data.bannerImageSrc != undefined) {
